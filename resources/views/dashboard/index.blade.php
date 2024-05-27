@@ -1,3 +1,3 @@
-<x-main>
+<x-dashboard.main title="HAHAHS">
   hahahh
-</x-main>
+</x-dashboard.main>
