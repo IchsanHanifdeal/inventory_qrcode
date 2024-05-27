@@ -34,7 +34,7 @@
                         <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password" id="password" placeholder="Masukan password...">
                     </div>
                     <div class="pb-2 pt-4">
-                        <button class="btn btn-sm w-full">Daftar Akun</button>
+                        <button class="btn w-full">Daftar Akun</button>
                     </div>
                 </form>
                 <h1 class="mt-5 text-sm opacity-50">Sudah punya akun?
