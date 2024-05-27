@@ -22,18 +22,16 @@
                 <h1 class="my-6">
                     @include('components.brands', ['class' => '!text-3xl'])
                 </h1>
-                <form class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                <form class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" action="{{ route('store.register') }}" method="POST">
+                    @csrf
                     <div class="pb-2 pt-4">
-                        <input type="text" name="username" id="username" placeholder="Masukan username..."
-                            class="input block w-full p-4 text-lg bg-gray-700">
+                        <input type="text" name="username" id="username" placeholder="Masukan username..." class="input block w-full p-4 text-lg bg-gray-700" value="{{old('username')}}">
                     </div>
                     <div class="pb-2 pt-4">
-                        <input type="email" name="email" id="email" placeholder="Masukan email..."
-                            class="input block w-full p-4 text-lg bg-gray-700">
+                        <input type="email" name="email" id="email" placeholder="Masukan email..." class="input block w-full p-4 text-lg bg-gray-700" value="{{old('email')}}">
                     </div>
                     <div class="pb-2 pt-4"> 
-                        <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password"
-                            id="password" placeholder="Masukan password...">
+                        <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password" id="password" placeholder="Masukan password...">
                     </div>
                     <div class="pb-2 pt-4">
                         <button class="btn w-full">Daftar Akun</button>

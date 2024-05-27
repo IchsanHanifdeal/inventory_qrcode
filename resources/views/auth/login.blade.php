@@ -22,7 +22,8 @@
                 <h1 class="my-6">
                     @include('components.brands', ['class' => '!text-3xl'])
                 </h1>
-                <form class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                <form action="{{ route('authenticate') }}" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" method="POST">
+                    @csrf
                     <div class="pb-2 pt-4">
                         <input type="email" name="email" id="email" placeholder="Masukan email..."
                             class="input block w-full p-4 text-lg bg-gray-700">
@@ -36,7 +37,7 @@
                     </div>
                 </form>
                 <h1 class="mt-5 text-sm opacity-50">Belum punya akun?
-                    <a href="/auth/register" class="hover:underline">Daftar Akun</a>
+                    <a href="{{ route('register') }}" class="hover:underline">Daftar Akun</a>
                 </h1>
             </div>
         </div>
