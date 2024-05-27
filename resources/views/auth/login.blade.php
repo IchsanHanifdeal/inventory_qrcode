@@ -25,18 +25,18 @@
                 <form action="{{ route('authenticate') }}" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" method="POST">
                     @csrf
                     <div class="pb-2 pt-4">
-                        <input type="email" name="email" id="email" placeholder="Masukan email..."
+                        <input type="email" name="email" id="email" required placeholder="Masukan email..."
                             class="input block w-full p-4 text-lg bg-gray-700">
+                        @error('email')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    @error('email')
-                        {{ $message }}
-                    @enderror
                     <div class="pb-2 pt-4">
                         <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password"
-                            id="password" placeholder="Masukan password...">
+                            id="password" required placeholder="Masukan password...">
                     </div>
                     <div class="pb-2 pt-4">
-                        <button class="btn w-full">Masuk</button>
+                        <button type="submit" class="btn w-full">Masuk</button>
                     </div>
                 </form>
                 <h1 class="mt-5 text-sm opacity-50">Belum punya akun?
