@@ -7,5 +7,5 @@
 }
 
 input {
-  @apply !py-0;
+  @apply !py-0 placeholder:text-sm;
 }

@@ -5,7 +5,7 @@
 
 <body class="flex flex-col mx-auto min-h-dvh {{ $full ?? 'max-w-screen-2xl' }}">
     @include('components.navbar')
-    <main class="{{ $class }} p-4">
+    <main class="{{ $class ?? 'p-4' }}">
         {{ $slot }}
     </main>
 </body>
