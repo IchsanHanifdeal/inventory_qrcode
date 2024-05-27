@@ -4,7 +4,8 @@
         <div class="flex justify-end">
             <div class="bg-white min-h-screen w-1/2 flex justify-center items-center">
                 <div>
-                    <form>
+                    <form action="{{ route('authenticate') }}" method="POST">
+                        @csrf
                         <div class="my-3">
                             <label class="block text-md mb-2" for="email">Email</label>
                             <input class="input input-bordered px-4 w-full border-2 py-2 rounded-md text-sm outline-none"
@@ -16,7 +17,7 @@
                                 type="password" name="password" placeholder="Masukan password...">
                         </div>
                         <div class="">
-                            <button class="mt-4 mb-3 w-full bg-blue-500 hover:bg-blue-400 text-white py-2 rounded-md">
+                            <button type="submit" class="mt-4 mb-3 w-full bg-blue-500 hover:bg-blue-400 text-white py-2 rounded-md">
                                 Login
                             </button>
                         </div>
