@@ -22,16 +22,30 @@
                 <h1 class="my-6">
                     @include('components.brands', ['class' => '!text-3xl'])
                 </h1>
-                <form class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" action="{{ route('store.register') }}" method="POST">
+                <form action="{{ route('store.register') }}" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
+                    method="POST">
                     @csrf
-                    <div class="pb-2 pt-4">
-                        <input type="text" name="username" id="username" placeholder="Masukan username..." class="input block w-full p-4 text-lg bg-gray-700" value="{{old('username')}}">
+                    <div class="flex flex-col items-start gap-1.5 pb-2 pt-4">
+                        <input type="text" name="username" id="username" required placeholder="Masukan username..."
+                            class="@error('username') {{ '!border-rose-600' }}  @enderror input block w-full p-4 text-lg bg-gray-700"
+                            value="{{ old('username') }}">
+                        @error('username')
+                            <span class="text-rose-600 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="pb-2 pt-4">
-                        <input type="email" name="email" id="email" placeholder="Masukan email..." class="input block w-full p-4 text-lg bg-gray-700" value="{{old('email')}}">
+                    <div class="flex flex-col items-start gap-1.5 pb-2 pt-4">
+                        <input type="email" name="email" id="email" required placeholder="Masukan email..."
+                            class="@error('email') {{ '!border-rose-600' }}  @enderror input block w-full p-4 text-lg bg-gray-700" value="{{ old('email') }}">
+                        @error('email')
+                            <span class="text-rose-600 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="pb-2 pt-4"> 
-                        <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password" id="password" placeholder="Masukan password...">
+                    <div class="flex flex-col items-start gap-1.5 pb-2 pt-4">
+                        <input class="@error('password') {{ '!border-rose-600' }}  @enderror input block w-full p-4 text-lg bg-gray-700" type="password" name="password"
+                            id="password" required placeholder="Masukan password...">
+                        @error('password')
+                            <span class="text-rose-600 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="pb-2 pt-4">
                         <button class="btn w-full">Daftar Akun</button>
