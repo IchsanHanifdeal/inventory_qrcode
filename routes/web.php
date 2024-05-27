@@ -14,5 +14,5 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-Route::get('/', [LoginController::class, 'index'])->name('login');
-Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::get('/auth/login', [LoginController::class, 'index'])->name('login');
+Route::get('/auth/register', [LoginController::class, 'register'])->name('register');

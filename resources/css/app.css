@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply font-[Onest] transition-all duration-100 m-0 p-0 box-border;
+}
+
+input {
+  @apply !py-0;
+}
