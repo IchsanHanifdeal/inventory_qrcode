@@ -35,7 +35,7 @@
                     </div>
                     <div class="flex flex-col items-start gap-1.5 pb-2 pt-4">
                         <input type="email" name="email" id="email" required placeholder="Masukan email..."
-                            class="@error('email') {{ '!border-rose-600' }}  @enderror input block w-full p-4 text-lg bg-gray-700" value="{{ old('email') }}">
+                            class="@error('email') {{ '!border-rose-600' }}  @enderror input peer block w-full p-4 text-lg bg-gray-700" value="{{ old('email') }}">
                         @error('email')
                             <span class="text-rose-600 text-sm">{{ $message }}</span>
                         @enderror
@@ -48,7 +48,7 @@
                         @enderror
                     </div>
                     <div class="pb-2 pt-4">
-                        <button class="btn w-full">Daftar Akun</button>
+                        <button class="btn peer-invalid:!bg-rose-600 w-full">Daftar Akun</button>
                     </div>
                 </form>
                 <h1 class="mt-5 text-sm opacity-50">Sudah punya akun?
