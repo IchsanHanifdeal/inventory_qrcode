@@ -1,5 +1,5 @@
 <x-main title="Register" class="p-0" full>
-    <section class="min-h-screen flex items-stretch text-white ">
+    <section class="min-h-screen flex items-stretch text-white">
         <div
             class="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center bg-[url('https://www.hashmicro.com/id/blog/wp-content/uploads/2022/10/image-25-1.jpg')]">
             <div class="absolute bg-[linear-gradient(180deg,transparent,rgba(0,0,0,1))] inset-0 z-0"></div>
@@ -25,14 +25,14 @@
                 <form class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                     <div class="pb-2 pt-4">
                         <input type="text" name="username" id="username" placeholder="Masukan username..."
-                            class="input block w-full p-4 text-lg bg-black">
+                            class="input block w-full p-4 text-lg bg-gray-700">
                     </div>
                     <div class="pb-2 pt-4">
                         <input type="email" name="email" id="email" placeholder="Masukan email..."
-                            class="input block w-full p-4 text-lg bg-black">
+                            class="input block w-full p-4 text-lg bg-gray-700">
                     </div>
                     <div class="pb-2 pt-4">
-                        <input class="input block w-full p-4 text-lg bg-black" type="password" name="password"
+                        <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password"
                             id="password" placeholder="Masukan password...">
                     </div>
                     <div class="pb-2 pt-4">
