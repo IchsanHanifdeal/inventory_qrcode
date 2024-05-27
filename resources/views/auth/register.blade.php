@@ -38,7 +38,7 @@
                     </div>
                 </form>
                 <h1 class="mt-5 text-sm opacity-50">Sudah punya akun?
-                    <a href="/" class="hover:underline">Masuk</a>
+                    <a href="{{ route('login') }}" class="hover:underline">Masuk</a>
                 </h1>
             </div>
         </div>
