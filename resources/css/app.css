@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 * {
-  @apply font-[Onest] transition-all duration-100 m-0 p-0 box-border;
+    @apply font-[Onest] transition-all duration-100 m-0 p-0 box-border;
 }
 
-input {
-  @apply !py-0 placeholder:text-sm;
+@layer components {
+    input {
+        @apply placeholder:text-sm !border-gray-500 !rounded-xl;
+    }
+
+    .btn {
+      @apply btn-sm;
+    }
 }
