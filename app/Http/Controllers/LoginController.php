@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -58,5 +60,35 @@ class LoginController extends Controller
         return view('auth.register', [
             'title' => 'Register'
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:8',
+        ],  [
+            'username.unique' => 'Username sudah digunakan, silakan pilih username yang lain.',
+            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.',
+            'password.min:8' => 'Password minimal terdiri dari 8 karakter.',
+        ]);
+
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'role' => 'user',
+            'password' => Hash::make($request->password),
+        ]);
+
+        $user->save();
+
+        if (!$user) {
+            toastr()->error('gagal daftar user!');
+            return redirect()->back();
+        }
+
+        toastr()->success('Daftar user berhasil!');
+        return redirect()->back();
     }
 }
