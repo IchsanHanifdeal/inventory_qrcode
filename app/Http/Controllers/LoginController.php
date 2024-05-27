@@ -89,6 +89,6 @@ class LoginController extends Controller
         }
 
         toastr()->success('Daftar user berhasil!');
-        return redirect()->back();
+        return redirect()->route('login');
     }
 }
