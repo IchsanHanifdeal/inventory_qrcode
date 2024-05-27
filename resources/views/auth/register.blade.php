@@ -31,7 +31,7 @@
                         <input type="email" name="email" id="email" placeholder="Masukan email..."
                             class="input block w-full p-4 text-lg bg-gray-700">
                     </div>
-                    <div class="pb-2 pt-4">
+                    <div class="pb-2 pt-4"> 
                         <input class="input block w-full p-4 text-lg bg-gray-700" type="password" name="password"
                             id="password" placeholder="Masukan password...">
                     </div>
