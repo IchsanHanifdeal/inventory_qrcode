@@ -1,4 +1,4 @@
-<div class="w-full navbar sticky top-0 bg-white border-b">
+<div class="w-full navbar sticky top-0 bg-white border-b z-10">
     <div class="flex-none md:hidden">
         <label for="aside-dashboard" aria-label="open sidebar" class="btn btn-square btn-ghost">
             <x-lucide-align-left class="size-6" />

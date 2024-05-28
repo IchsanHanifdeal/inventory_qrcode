@@ -36,11 +36,14 @@
         @endforeach
     </div>
     <div class="flex gap-5">
-        @foreach ([1, 1] as $item)
+        @foreach ([
+          'barang_masuk',
+          'barang_keluar',
+        ] as $item)
             <div class="flex flex-col border-back rounded-xl w-full">
                 <div class="p-7 bg-white rounded-t-xl">
                     <h1 class="flex items-start gap-3 font-semibold font-[onest] text-lg capitalize">
-                        Barang Masuk <span class="badge badge-sm badge-secondary">hari ini</span>
+                        {{ str_replace('_', ' ', $item) }} <span class="badge badge-sm badge-secondary">hari ini</span>
                     </h1>
                     <p class="text-sm opacity-60">Berdasarkan data terbaru, 28/05/2024</p>
                 </div>
@@ -50,7 +53,7 @@
                             <h1>{{ $i + 1 }}</h1>
                             <div>
                                 <h1 class="opacity-50 text-sm font-semibold">#INV7957772048</h1>
-                                <h1 class="font-semibold hover:underline cursor-pointer">Indomie Rasa Kecap 200 Pack</h1>
+                                <h1 class="font-semibold hover:underline cursor-pointer">Indomie Rasa Kopi 200 Pack</h1>
                             </div>
                         </div>
                     @endforeach
