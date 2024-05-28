@@ -52,7 +52,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'id merek', 'nama merek', 'jenis barang', 'register', ''] as $item)
+                                    @foreach (['no', 'kode merek', 'nama merek', 'jenis barang', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>

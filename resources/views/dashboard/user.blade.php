@@ -49,7 +49,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'username', 'email', 'role', 'last login', 'register', ''] as $item)
+                                    @foreach (['no', 'nama', 'username', 'email', 'role', 'last login', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -58,6 +58,7 @@
                                 @foreach ([1, 1, 1, 1, 1] as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
+                                        <td>Kejaa</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">zaadevofc</td>
                                         <td>zaadevofc@gmail.com</td>
                                         <td class="font-semibold uppercase">admin</td>

@@ -1,12 +1,12 @@
 <x-dashboard.main title="Dashboard">
     <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-        @foreach (['total_barang', 'barang_masuk', 'barang_keluar', 'merk_terdaftar'] as $type)
+        @foreach (['total_barang', 'total_merek', 'total_jenis', 'merk_terdaftar'] as $type)
             <div class="flex items-center px-4 py-3 bg-white border-back rounded-xl">
                 <span
                     class="
                   {{ $type == 'total_barang' ? 'bg-blue-300' : '' }}
-                  {{ $type == 'barang_masuk' ? 'bg-green-300' : '' }}
-                  {{ $type == 'barang_keluar' ? 'bg-rose-300' : '' }}
+                  {{ $type == 'total_merek' ? 'bg-green-300' : '' }}
+                  {{ $type == 'total_jenis' ? 'bg-rose-300' : '' }}
                   {{ $type == 'merk_terdaftar' ? 'bg-amber-300' : '' }}
                   p-3 mr-4 text-gray-700 rounded-full"></span>
                 <div>

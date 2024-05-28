@@ -1,7 +1,7 @@
 <div class="drawer-side border-r">
     <label for="aside-dashboard" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul
-        class="menu [&>li>a]:gap-4 [&>li]:my-1.5 [&>li]:text-[14.5px] [&>li]:font-medium [&>li]:text-opacity-80 [&>li]:text-base [&>_*_svg]:stroke-[1.5] [&>_*_svg]:size-6 [&>.label]:mt-6 p-4 w-64 min-h-full bg-white">
+        class="menu [&>li>a]:gap-4 [&>li]:my-1.5 [&>li]:text-[14.4px] [&>li]:font-medium [&>li]:text-opacity-80 [&>li]:text-base [&>_*_svg]:stroke-[1.5] [&>_*_svg]:size-[23px] [&>.label]:mt-6 p-4 w-64 min-h-full bg-white">
         <div class="pb-4 border-b border-gray-300">
             @include('components.brands', ['class' => '!text-2xl'])
         </div>
