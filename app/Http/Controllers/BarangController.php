@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\BarangKeluar;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -12,7 +14,13 @@ class BarangController extends Controller
    */
   public function index()
   {
-    return view('dashboard.barang');
+    return view('dashboard.barang', [
+      'total_barang' => Barang::count(),
+      'stok_barang' => Barang::sum('stok'),
+      'barang_masuk' => BarangMasuk::Count(),
+      'barang_keluar' => BarangKeluar::Count(),
+      'barang' => Barang::all(),
+    ]);
   }
 
   /**

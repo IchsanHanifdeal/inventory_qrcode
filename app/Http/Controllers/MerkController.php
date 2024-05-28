@@ -12,7 +12,11 @@ class MerkController extends Controller
    */
   public function index()
   {
-    return view('dashboard.merk');
+    return view('dashboard.merk', [
+      'total_merk' => Merk::Count(),
+      'merk_terbaru' => Merk::latest()->first(),
+      'merk' => Merk::all(),
+    ]);
   }
 
   /**

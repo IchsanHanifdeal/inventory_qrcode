@@ -12,7 +12,8 @@
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'merek_terbaru' ? 'Uniclo' : 10 }}
+                        {{ $type == 'total_merek' ? $total_merk : '' }}
+                        {{ $type == 'merek_terbaru' ? $merk_terbaru->merk : '' }}
                     </p>
                 </div>
             </div>
@@ -52,21 +53,20 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'kode merek', 'nama merek', 'jenis barang', 'register', ''] as $item)
+                                    @foreach (['no', 'kode merek', 'nama merek', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ([1, 1, 1, 1, 1] as $i => $item)
+                                @foreach ($merk as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
-                                        <td class="font-semibold uppercase">UNC</td>
+                                        <td class="font-semibold uppercase">{{ $item->kode }}</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
-                                            Uniclo
+                                            {{ $item->merk }}
                                         </td>
-                                        <td class="font-semibold uppercase">pakaian</td>
-                                        <td>12:22 20/09/2023</td>
+                                        <td>{{ $item->created_at}}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />

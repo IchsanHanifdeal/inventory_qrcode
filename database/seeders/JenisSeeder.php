@@ -15,16 +15,19 @@ class JenisSeeder extends Seeder
     {
         Jenis::create([
             'id_jenis' => '1',
+            'kode_jenis' => 'J01',
             'jenis' => 'Makanan',
         ]);
 
         Jenis::create([
             'id_jenis' => '2',
+            'kode_jenis' => 'J02',
             'jenis' => 'Minuman',
         ]);
 
         Jenis::create([
             'id_jenis' => '3',
+            'kode_jenis' => 'J03',
             'jenis' => 'Baju',
         ]);
     }

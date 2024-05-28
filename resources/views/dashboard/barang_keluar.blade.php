@@ -14,10 +14,12 @@
                         {{ $item == 'tambah_barang_keluar' ? 'Menambahkan transaksi barang keluar.' : '' }}
                     </p>
                 </div>
-                <h1 class="{{ $item == 'jumlah_barang_keluar' ? '' : 'hidden' }} text-3xl sm:text-4xltext-4xl font-semibold">
-                    344
+                <h1
+                    class="{{ $item == 'jumlah_barang_keluar' ? '' : 'hidden' }} text-3xl sm:text-4xltext-4xl font-semibold">
+                    {{ $jumlah_keluar }}
                 </h1>
-                <x-lucide-plus class="{{ $item == 'tambah_barang_keluar' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                <x-lucide-plus
+                    class="{{ $item == 'tambah_barang_keluar' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
     </div>
@@ -41,19 +43,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ([1, 1, 1, 1, 1] as $i => $item)
+                                @if ($barang_keluar->isEmpty())
+                                    <tr>
+                                        <td colspan="9" class="text-center">Tidak ada barang keluar</td>
+                                    </tr>
+                                @endif
+                                @foreach ($barang_keluar as $i => $item)
                                     <tr class="whitespace-nowrap">
                                         <th>{{ $i + 1 }}</th>
-                                        <td class="uppercase font-semibold opacity-70">#PKNUNC7973950</td>
+                                        <td class="uppercase font-semibold opacity-70">{{ $item->barang->kode }}</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
-                                            Celana Jeans Uniclo [XL]
+                                            {{ $item->barang->nama }}
                                         </td>
-                                        <td class="font-semibold">884</td>
-                                        <td class="font-semibold uppercase">PCS</td>
-                                        <td class="uppercase">pakaian</td>
-                                        <td class="uppercase">uniclo</td>
-                                        <td>12:22 20/09/2023</td>
-                                        <td>12:22 20/09/2023</td>
+                                        <td class="font-semibold">{{ $item->jumlah }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->jumlah }}</td>
+                                        <td class="uppercase">{{ $item->barang->jenis->jenis }}</td>
+                                        <td class="uppercase">{{ $item->barang->merk->merk }}</td>
+                                        <td>{{ $item->updated_at }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />

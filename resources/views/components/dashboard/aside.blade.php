@@ -50,10 +50,12 @@
         </li>
         <span class="label text-xs font-extrabold opacity-50">ADVANCE</span>
         <li>
-            <a class="flex items-center px-2.5">
-                <x-lucide-log-out />
-                Logout
-            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <a class="flex items-center px-2.5" href="#" onclick="event.preventDefault(); confirmLogout();">
+                    <x-lucide-log-out />
+                    Logout
+                </a>
+            </form>
         </li>
     </ul>
 </div>

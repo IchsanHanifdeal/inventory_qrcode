@@ -12,7 +12,11 @@ class JenisController extends Controller
    */
   public function index()
   {
-    return view('dashboard.jenis');
+    return view('dashboard.jenis', [
+      'total_jenis' => Jenis::Count(),
+      'jenis_terbaru' => Jenis::latest()->first(),
+      'jenis' => Jenis::all(),
+    ]);
   }
 
   /**

@@ -14,7 +14,10 @@
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'total_barang' ? 839483 : 10 }}
+                        {{ $type == 'total_barang' ? $total_barang : '' }}
+                        {{ $type == 'stok_barang' ? $stok_barang : '' }}
+                        {{ $type == 'barang_masuk' ? $barang_masuk : '' }}
+                        {{ $type == 'barang_keluar' ? $barang_keluar : '' }}
                     </p>
                 </div>
             </div>
@@ -58,19 +61,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ([1, 1, 1, 1, 1] as $i => $item)
+                                @foreach ($barang as $i => $item)
                                     <tr class="whitespace-nowrap">
                                         <th>{{ $i + 1 }}</th>
-                                        <td class="uppercase font-semibold opacity-70">#PKNUNC7973950</td>
+                                        <td class="uppercase font-semibold opacity-70">{{ $item->kode }}</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
-                                            Celana Jeans Uniclo [XL]
+                                            {{ $item->nama }}
                                         </td>
-                                        <td class="font-semibold">884</td>
-                                        <td class="font-semibold uppercase">PCS</td>
-                                        <td class="uppercase">pakaian</td>
-                                        <td class="uppercase">uniclo</td>
-                                        <td>12:22 20/09/2023</td>
-                                        <td>12:22 20/09/2023</td>
+                                        <td class="font-semibold">{{ $item->stok}}</td>
+                                        <td class="font-semibold uppercase">{{$item->satuan}}</td>
+                                        <td class="uppercase">{{ $item->jenis->jenis }}</td>
+                                        <td class="uppercase">{{ $item->merk->merk}} </td>
+                                        <td>{{ $item->updated_at }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />

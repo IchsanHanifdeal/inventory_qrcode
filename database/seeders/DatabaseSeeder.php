@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             JenisSeeder::class,
             MerkSeeder::class,
+            BarangSeeder::class,
         ]);
     }
 }

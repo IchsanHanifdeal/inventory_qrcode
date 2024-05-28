@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('auth.login', [
             'title' => 'Login'
         ]);
     }
 
-    public function auth(Request $request) {
+    public function auth(Request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required',
             'password' => 'required'
@@ -33,7 +35,7 @@ class LoginController extends Controller
                 $request->session()->put('username', $user->username);
                 $request->session()->put('email', $user->email);
                 $request->session()->put('role', $user->role);
-             
+
                 return redirect()->intended('dashboard')->with('success', 'Login successful!');
             } elseif ($userRole == 'user') {
                 $request->session()->regenerate();
@@ -56,7 +58,8 @@ class LoginController extends Controller
         ]);
     }
 
-    public function register() {
+    public function register()
+    {
         return view('auth.register', [
             'title' => 'Register'
         ]);
@@ -90,5 +93,16 @@ class LoginController extends Controller
 
         toastr()->success('Daftar user berhasil!');
         return redirect()->route('login');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        toastr()->success('Logout berhasil, Anda telah keluar');
+
+        return redirect('/');
     }
 }

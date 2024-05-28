@@ -12,7 +12,8 @@
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'total_admin' ? 839483 : 10 }}
+                        {{ $type == 'total_user' ? $total_user : '' }}
+                        {{ $type == 'total_admin' ? $total_admin : '' }}
                     </p>
                 </div>
             </div>
@@ -38,15 +39,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ([1, 1, 1, 1, 1] as $i => $item)
+                                @foreach ($user as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
-                                        <td>Kejaa</td>
-                                        <td class="text-blue-500 font-semibold hover:underline cursor-pointer">zaadevofc
+                                        <td>{{ $item->name }}</td>
+                                        <td class="text-blue-500 font-semibold hover:underline cursor-pointer">{{ $item->username }}
                                         </td>
-                                        <td>zaadevofc@gmail.com</td>
-                                        <td class="font-semibold uppercase">admin</td>
-                                        <td>12:22 20/09/2024</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->role }}</td>
+                                        <td>{{ $item->created_at}}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />

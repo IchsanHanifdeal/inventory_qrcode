@@ -10,5 +10,5 @@ class Merk extends Model
     use HasFactory;
     protected $table = "merk";
     protected $primaryKey = "id_merk";
-    protected $fillable = ['merk'];
+    protected $fillable = ['kode', 'merk'];
 }
