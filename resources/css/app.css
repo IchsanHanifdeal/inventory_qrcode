@@ -12,6 +12,6 @@
     }
 
     .btn {
-      @apply btn-sm;
+        @apply btn-sm;
     }
 }
