@@ -29,6 +29,10 @@ Image {
         @apply placeholder:text-sm !border-gray-500 !rounded-xl;
     }
 
+    tbody {
+      @apply text-sm lg:text-[15px];
+    }
+
     .btn {
         @apply btn-sm;
     }

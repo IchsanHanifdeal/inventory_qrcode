@@ -1,29 +1,29 @@
 <x-dashboard.main title="Kelola Merek Barang">
-    <div class="grid md:grid-cols-2 gap-6">
-        @foreach (['total_merek', 'merek_terdaftar'] as $type)
+    <div class="grid sm:grid-cols-2 gap-5 md:gap-6">
+        @foreach (['total_merek', 'merek_terbaru'] as $type)
             <div class="flex items-center px-4 py-3 bg-white border-back rounded-xl">
                 <span
                     class="
                   {{ $type == 'total_merek' ? 'bg-blue-300' : '' }}
-                  {{ $type == 'merek_terdaftar' ? 'bg-amber-300' : '' }}
+                  {{ $type == 'merek_terbaru' ? 'bg-amber-300' : '' }}
                   p-3 mr-4 text-gray-700 rounded-full"></span>
                 <div>
                     <p class="text-sm font-medium capitalize text-gray-600 line-clamp-1">
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'merek_terdaftar' ? 839483 : 10 }}
+                        {{ $type == 'merek_terbaru' ? 'Uniclo' : 10 }}
                     </p>
                 </div>
             </div>
         @endforeach
     </div>
-    <div class="flex gap-5">
+    <div class="flex flex-col lg:flex-row gap-5">
         @foreach (['detail_merek', 'tambah_merek'] as $item)
             <div
-                class="flex items-center justify-between p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
+                class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
                 <div>
-                    <h1 class="flex items-start gap-3 font-semibold font-[onest] text-lg capitalize">
+                    <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
                         {{ str_replace('_', ' ', $item) }}
                     </h1>
                     <p class="text-sm opacity-60">
@@ -31,23 +31,23 @@
                         {{ $item == 'tambah_merek' ? 'Menambahkan merek untuk barang' : '' }}
                     </p>
                 </div>
-                <x-lucide-scan-line class="{{ $item == 'detail_merek' ? '' : 'hidden' }} size-7 opacity-60" />
-                <x-lucide-plus class="{{ $item == 'tambah_merek' ? '' : 'hidden' }} size-7 opacity-60" />
+                <x-lucide-scan-line class="{{ $item == 'detail_merek' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                <x-lucide-plus class="{{ $item == 'tambah_merek' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
     </div>
     <div class="flex gap-5">
         @foreach (['manajemen_merek_barang'] as $item)
             <div class="flex flex-col border-back rounded-xl w-full">
-                <div class="p-7 bg-white rounded-t-xl">
-                    <h1 class="flex items-start gap-3 font-semibold font-[onest] text-lg capitalize">
+                <div class="p-5 sm:p-7 bg-white rounded-t-xl">
+                    <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
                         {{ str_replace('_', ' ', $item) }}
                     </h1>
                     <p class="text-sm opacity-60">
                         Buat identitas setiap barang dengan menambahkan merek.
                     </p>
                 </div>
-                <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-7">
+                <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
                         <table class="table table-zebra">
                             <thead>
@@ -70,7 +70,6 @@
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
-                                            <x-lucide-qr-code class="size-5 hover:stroke-emerald-500 cursor-pointer" />
                                         </td>
                                     </tr>
                                 @endforeach
