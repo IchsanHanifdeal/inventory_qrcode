@@ -6,6 +6,24 @@
     @apply font-[Quicksand] transition-all duration-100 m-0 p-0 box-border;
 }
 
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 4px solid #fff;
+    @apply bg-[#CCCCCC] rounded-full;
+}
+
+::-webkit-scrollbar {
+    @apply w-3.5;
+}
+
+img,
+Image {
+    @apply select-none;
+}
+
 @layer components {
     input {
         @apply placeholder:text-sm !border-gray-500 !rounded-xl;
@@ -16,6 +34,10 @@
     }
 
     .label {
-      @apply font-[Onest];
+        @apply font-[Onest];
+    }
+
+    .border-back {
+        @apply border border-gray-300;
     }
 }

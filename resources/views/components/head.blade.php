@@ -1,4 +1,4 @@
-<head>
+<head lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <meta property="og:url" content="https://...">
     <meta property="og:type" content="website">
     <meta property="og:title" content="....">

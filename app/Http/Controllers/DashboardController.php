@@ -12,7 +12,11 @@ class DashboardController extends Controller
    */
   public function index()
   {
-    return view('dashboard.index');
+    $data = [
+      'labels' => ['January', 'February', 'March', 'April', 'May'],
+      'data' => [65, 59, 80, 81, 56],
+    ];
+    return view('dashboard.index', compact('data'));
   }
   /**
    * Show the form for creating a new resource.

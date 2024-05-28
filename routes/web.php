@@ -29,8 +29,8 @@ Route::post('/auth/register', [LoginController::class, 'store'])->name('store.re
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/dashboard/users', [UserController::class, 'index'])->name('users');
-Route::post('/dashboard/users', [UserController::class, 'store'])->name('store.user');
+Route::get('/dashboard/user', [UserController::class, 'index'])->name('user');
+Route::post('/dashboard/user', [UserController::class, 'store'])->name('store.user');
 Route::delete('/dashboard/user/{id_user}', [UserController::class, 'destroy'])->name('destroy.user');
 Route::put('/dashboard/user/{id_user}', [UserController::class, 'update'])->name('update.user');
 
