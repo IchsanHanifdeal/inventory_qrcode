@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    @apply font-[Onest] transition-all duration-100 m-0 p-0 box-border;
+    @apply font-[Quicksand] transition-all duration-100 m-0 p-0 box-border;
 }
 
 @layer components {
@@ -13,5 +13,9 @@
 
     .btn {
         @apply btn-sm;
+    }
+
+    .label {
+      @apply font-[Onest];
     }
 }
