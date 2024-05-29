@@ -15,14 +15,17 @@ class MerkSeeder extends Seeder
     {
         Merk::create([
             'id_merk' => '1',
+            'kode' => 'M01',
             'merk' => 'H&M',
         ]);
         Merk::create([
             'id_merk' => '2',
+            'kode' => 'M02',
             'merk' => 'Hermes',
         ]);
         Merk::create([
             'id_merk' => '3',
+            'kode' => 'M03',
             'merk' => 'Gucci',
         ]);
     }

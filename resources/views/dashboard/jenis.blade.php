@@ -12,7 +12,8 @@
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'jenis_terbaru' ? 'Pakaian' : 10 }}
+                        {{ $type == 'total_jenis' ? $total_jenis : '' }}
+                        {{ $type == 'jenis_terbaru' ? ($jenis_terbaru ?? '-') : '' }}
                     </p>
                 </div>
             </div>
@@ -31,8 +32,10 @@
                         {{ $item == 'tambah_jenis_barang' ? 'Menambahkan jenis untuk barang' : '' }}
                     </p>
                 </div>
-                <x-lucide-scan-line class="{{ $item == 'detail_jenis_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
-                <x-lucide-plus class="{{ $item == 'tambah_jenis_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                <x-lucide-scan-line
+                    class="{{ $item == 'detail_jenis_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                <x-lucide-plus
+                    class="{{ $item == 'tambah_jenis_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
     </div>
@@ -58,14 +61,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ([1, 1, 1, 1, 1] as $i => $item)
+                                @foreach ($jenis as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
+                                        <td class="font-semibold uppercase">{{ $item->kode_jenis }}</td>
                                         <td
                                             class="text-blue-500 font-semibold uppercase hover:underline cursor-pointer">
-                                            pakaian
+                                            {{ $item -> jenis}}
                                         </td>
-                                        <td>12:22 20/09/2023</td>
+                                        <td>{{ $item-> created_at}}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />

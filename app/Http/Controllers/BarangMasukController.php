@@ -12,7 +12,10 @@ class BarangMasukController extends Controller
    */
   public function index()
   {
-    return view('dashboard.barang_masuk');
+    return view('dashboard.barang_masuk', [
+      'barang_masuk' => BarangMasuk::all(),
+      'jumlah_masuk' => BarangMasuk::sum('jumlah'),
+    ]);
   }
 
   /**

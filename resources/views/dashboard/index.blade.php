@@ -14,14 +14,17 @@
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
-                        {{ $type == 'total_barang' ? 839483 : 10 }}
+                        {{ $type == 'total_barang' ? $totalBarang : '' }}
+                        {{ $type == 'total_merek' ? $totalMerk : '' }}
+                        {{ $type == 'total_jenis' ? $totalJenis : '' }}
+                        {{ $type == 'total_user' ? $totalUser : '' }}
                     </p>
                 </div>
             </div>
         @endforeach
     </div>
     <div class="flex flex-col xl:flex-row gap-5">
-        @foreach (['transaksi_barang_masuk', 'transaksi_barang_keluar'] as $item)
+        @foreach (['transaksi_barang_masuk', 'transaksi_barang_keluar'] as $index => $item)
             <div
                 class="flex flex-col sm:flex-row sm:items-center gap-5 justify-between p-5 sm:p-7 bg-white border-back rounded-xl w-full">
                 <div>
@@ -31,32 +34,40 @@
                     <p class="text-sm opacity-60">Berdasarkan pada jumlah keseluruhan.</p>
                 </div>
                 <h1 class="text-3xl sm:text-4xl font-semibold">
-                    344
+                    @if ($loop->first)
+                        {{ $totalMasuk }}
+                    @else
+                        {{ $totalKeluar }}
+                    @endif
                 </h1>
             </div>
         @endforeach
     </div>
     <div class="flex flex-col xl:flex-row gap-5">
-        @foreach (['barang_masuk', 'barang_keluar'] as $item)
+        @foreach (['barang_masuk', 'barang_keluar'] as $key => $jenis)
             <div class="flex flex-col border-back rounded-xl w-full">
                 <div class="p-5 sm:p-7 bg-white rounded-t-xl">
                     <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
-                        {{ str_replace('_', ' ', $item) }} <span
+                        {{ str_replace('_', ' ', $jenis) }} <span
                             class="badge badge-xs sm:badge-sm uppercase badge-secondary">baru</span>
                     </h1>
-                    <p class="text-sm opacity-60">Berdasarkan data pada 28/05/2024</p>
+                    <p class="text-sm opacity-60">Berdasarkan data pada {{ date('d-m-Y') }}</p>
                 </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5">
-                    @foreach (array_slice([21, 1, 1, 1, 1, 1, 1], 0, 5) as $i => $item)
+                    @forelse (${$jenis} as $index => $data)
                         <div class="flex items-center gap-5 pt-3">
-                            <h1>{{ $i + 1 }}</h1>
+                            <h1>{{ $index + 1 }}</h1>
                             <div>
-                                <h1 class="opacity-50 text-sm font-semibold">#PKNUNC7957772048</h1>
-                                <h1 class="font-semibold text-sm sm:text-[15px] hover:underline cursor-pointer">Indomie
-                                    Rasa Kopi 200 Pack</h1>
+                                <h1 class="opacity-50 text-sm font-semibold">#{{ $data->barang->kode }}</h1>
+                                <h1 class="font-semibold text-sm sm:text-[15px] hover:underline cursor-pointer">
+                                    {{ $data->barang->nama }}</h1>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="flex items-center gap-5 pt-3">
+                            <h1>Data transaksi tidak ada.</h1>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         @endforeach
