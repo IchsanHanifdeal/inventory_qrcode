@@ -1,7 +1,7 @@
 <x-dashboard.main title="Kelola Barang Masuk">
     <div class="flex flex-col xl:flex-row gap-5">
         @foreach (['jumlah_barang_masuk', 'tambah_barang_masuk'] as $item)
-            <div
+            <div onclick="{{ $item . '_modal' }}.showModal()"
                 class="
                   {{ $item == 'tambah_barang_masuk' ? 'hover:shadow-md active:scale-[.97] border border-blue-200 cursor-pointer' : '' }}
                   flex {{ $item == 'jumlah_barang_masuk' ? 'flex-col sm:flex-row !items-start sm:items-center gap-5' : '' }} items-center justify-between p-5 sm:p-7 bg-white border-back rounded-xl w-full">

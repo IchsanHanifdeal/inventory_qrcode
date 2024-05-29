@@ -61,6 +61,10 @@ Image {
     .input-label {
         @apply flex flex-col w-full;
 
+        .validated {
+          @apply text-red-600 text-xs mt-1.5;
+        }
+
         .label {
           @apply text-sm font-medium capitalize;
         }
