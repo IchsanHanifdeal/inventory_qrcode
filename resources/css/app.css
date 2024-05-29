@@ -19,6 +19,15 @@
     @apply w-3.5;
 }
 
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: flex;
+  margin: 0;
+}
+
 img,
 Image {
     @apply select-none;
@@ -29,8 +38,12 @@ Image {
         @apply placeholder:text-sm !border-gray-500 !rounded-xl;
     }
 
+    select {
+        @apply placeholder:text-sm !border-gray-500 !rounded-xl;
+    }
+
     tbody {
-      @apply text-sm lg:text-[15px];
+        @apply text-sm lg:text-[15px];
     }
 
     .btn {
@@ -43,5 +56,33 @@ Image {
 
     .border-back {
         @apply border border-gray-300;
+    }
+
+    .input-label {
+        @apply flex flex-col w-full;
+
+        .label {
+          @apply text-sm font-medium capitalize;
+        }
+        
+        & > input {
+            @apply input input-sm;
+        }
+    }
+
+    dialog {
+        @apply p-0;
+
+        .modal-title {
+            @apply font-bold text-lg border-b pb-4;
+        }
+
+        .modal-body {
+          @apply flex flex-col gap-4 mt-4;
+        }
+
+        .modal-action {
+          @apply mt-8 gap-2 capitalize;
+        }
     }
 }

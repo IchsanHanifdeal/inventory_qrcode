@@ -23,9 +23,9 @@
             </div>
         @endforeach
     </div>
-   <div class="flex flex-col lg:flex-row gap-5">
+    <div class="flex flex-col lg:flex-row gap-5">
         @foreach (['detail_barang', 'tambah_barang'] as $item)
-            <div
+            <div onclick="{{ $item . '_modal' }}.showModal()"
                 class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
                 <div>
                     <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
@@ -36,7 +36,8 @@
                         {{ $item == 'tambah_barang' ? 'Menambahkan barang untuk di kelola' : '' }}
                     </p>
                 </div>
-                <x-lucide-scan-line class="{{ $item == 'detail_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                <x-lucide-scan-line
+                    class="{{ $item == 'detail_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
                 <x-lucide-plus class="{{ $item == 'tambah_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
@@ -68,10 +69,10 @@
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
                                             {{ $item->nama }}
                                         </td>
-                                        <td class="font-semibold">{{ $item->stok}}</td>
-                                        <td class="font-semibold uppercase">{{$item->satuan}}</td>
+                                        <td class="font-semibold">{{ $item->stok }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->satuan }}</td>
                                         <td class="uppercase">{{ $item->jenis->jenis }}</td>
-                                        <td class="uppercase">{{ $item->merk->merk}} </td>
+                                        <td class="uppercase">{{ $item->merk->merk }} </td>
                                         <td>{{ $item->updated_at }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">

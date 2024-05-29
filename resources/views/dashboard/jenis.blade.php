@@ -21,7 +21,7 @@
     </div>
     <div class="flex flex-col lg:flex-row gap-5">
         @foreach (['detail_jenis_barang', 'tambah_jenis_barang'] as $item)
-            <div
+            <div onclick="{{ $item . '_modal' }}.showModal()"
                 class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
                 <div>
                     <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">

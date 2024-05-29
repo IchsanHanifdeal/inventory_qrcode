@@ -13,3 +13,5 @@
         @include('components.dashboard.aside')
     </div>
 </x-main>
+
+@include('components.dashboard.modals')
