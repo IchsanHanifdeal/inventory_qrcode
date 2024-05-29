@@ -9,6 +9,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +60,5 @@ Route::get('/dashboard/barang_keluar', [BarangKeluarController::class, 'index'])
 Route::post('/dashboard/barang_keluar', [BarangKeluarController::class, 'store'])->name('store.barangkeluar');
 Route::put('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'update'])->name('update.barangkeluar');
 Route::delete('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'destroy'])->name('delete.barangkeluar');
+
+Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');

@@ -42,7 +42,7 @@
                                 @foreach ($user as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
-                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->name ?? '-' }}</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">{{ $item->username }}
                                         </td>
                                         <td>{{ $item->email }}</td>

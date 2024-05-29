@@ -50,8 +50,15 @@
         </li>
         <span class="label text-xs font-extrabold opacity-50">ADVANCE</span>
         <li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                <a class="flex items-center px-2.5 gap-4" href="#" onclick="event.preventDefault(); confirmLogout();">
+            <a href="{{ route('profile') }}" class="{!! Request::path() == 'dashboard/profile' ? 'active' : '' !!} flex items-center px-2.5">
+                <x-lucide-user-2 />
+                Profile
+            </a>
+        </li>
+        <li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="px-0">
+                <a class="flex items-center px-2.5 gap-4" href="#"
+                    onclick="event.preventDefault(); confirmLogout();">
                     <x-lucide-log-out />
                     Logout
                 </a>
