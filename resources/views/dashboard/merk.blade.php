@@ -1,4 +1,18 @@
 <x-dashboard.main title="Kelola Merek Barang">
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn" onclick="my_modal_1.showModal()">open modal</button>
+    <dialog id="my_modal_1" class="modal modal-top">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Hello!</h3>
+            <p class="py-4">Press ESC key or click the button below to close</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
     <div class="grid sm:grid-cols-2 gap-5 md:gap-6">
         @foreach (['total_merek', 'merek_terbaru'] as $type)
             <div class="flex items-center px-4 py-3 bg-white border-back rounded-xl">
@@ -52,7 +66,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'kode merek', 'nama merek', 'jenis barang', 'register', ''] as $item)
+                                    @foreach (['no', 'nama merek', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -61,11 +75,9 @@
                                 @foreach ([1, 1, 1, 1, 1] as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
-                                        <td class="font-semibold uppercase">UNC</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
                                             Uniclo
                                         </td>
-                                        <td class="font-semibold uppercase">pakaian</td>
                                         <td>12:22 20/09/2023</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />

@@ -52,7 +52,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'kode jenis', 'jenis barang', 'register', ''] as $item)
+                                    @foreach (['no', 'jenis barang', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -61,7 +61,6 @@
                                 @foreach ([1, 1, 1, 1, 1] as $i => $item)
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
-                                        <td class="font-semibold uppercase">PKN</td>
                                         <td
                                             class="text-blue-500 font-semibold uppercase hover:underline cursor-pointer">
                                             pakaian
