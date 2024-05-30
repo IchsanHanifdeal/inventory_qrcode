@@ -152,7 +152,7 @@
 </dialog>
 
 <script>
-    const el = id => document.getElementById(id)
+    const el = id => document.getElementById(id) || ''
     let barcodeData;
 
     function initBarcode(data) {
@@ -164,7 +164,6 @@
     }
 
     function initUpdate(type, data) {
-        console.log("🚀 ~ initUpdate ~ data:", data)
         el('up_kode_merek').value = data.kode
         el('up_nama_merek').value = data.merk
         el('up_kode_jenis').value = data.kode_jenis
@@ -176,10 +175,15 @@
         el('up_merek_barang').value = data.id_merk
         el('up_stok_barang').value = data.stok
         el('up_satuan_barang').value = data.satuan
+
+        el('up_nama').value = data.name
+        el('up_username').value = data.username
+        el('up_email').value = data.email
+        el('up_role').value = data.role
     }
 
     function initDelete(type, data) {
-        const val = data[type === 'barang' ? 'nama' : type];
+        const val = data[type == 'barang' ? 'nama' : type == 'user' ? 'username' : type];
 
         el('dl_data_type').innerText = type;
         el('dl_data_nama').innerText = `"${val}"`;
