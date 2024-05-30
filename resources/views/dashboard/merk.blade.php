@@ -13,7 +13,7 @@
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
                         {{ $type == 'total_merek' ? $total_merk : '' }}
-                        {{ $type == 'merek_terbaru' ? $merk_terbaru ?? '-' : '' }}
+                        {{ $type == 'merek_terbaru' ? $merk_terbaru->merk ?? '-' : '' }}
                     </p>
                 </div>
             </div>

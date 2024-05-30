@@ -13,7 +13,7 @@
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
                         {{ $type == 'total_jenis' ? $total_jenis : '' }}
-                        {{ $type == 'jenis_terbaru' ? ($jenis_terbaru ?? '-') : '' }}
+                        {{ $type == 'jenis_terbaru' ? ($jenis_terbaru->jenis ?? '-') : '' }}
                     </p>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'jenis barang', 'register', ''] as $item)
+                                    @foreach (['no', 'kode jenis', 'jenis barang', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>

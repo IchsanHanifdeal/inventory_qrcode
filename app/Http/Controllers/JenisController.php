@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jenis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class JenisController extends Controller
 {
@@ -24,7 +25,6 @@ class JenisController extends Controller
    */
   public function create()
   {
-    //
   }
 
   /**
@@ -32,7 +32,30 @@ class JenisController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $validator = Validator::make($request->all(), [
+      'kode_jenis' => 'required|unique:jenis,kode_jenis',
+      'nama_jenis' => 'required|unique:jenis,jenis',
+    ], [
+      'kode_jenis.unique' => 'Kode jenis sudah terdaftar, silahkan daftarkan Kode jenis lain',
+      'nama_jenis.unique' => 'Nama jenis sudah terdaftar, silahkan daftarkan Nama jenis lain',
+    ]);
+
+    if ($validator->fails()) {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    try {
+      $jenis = jenis::create([
+        'kode_jenis' => $request->kode_jenis,
+        'jenis' => $request->nama_jenis,
+      ]);
+
+      toastr()->success('Pendaftaran jenis Berhasil!');
+      return redirect()->route('jenis');
+    } catch (\Exception $e) {
+      toastr()->error('Pendaftaran gagal: ' . $e->getMessage());
+      return redirect()->back()->withInput();
+    }
   }
 
   /**

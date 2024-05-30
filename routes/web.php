@@ -37,9 +37,9 @@ Route::delete('/dashboard/user/{id_user}', [UserController::class, 'destroy'])->
 Route::put('/dashboard/user/{id_user}', [UserController::class, 'update'])->name('update.user');
 
 Route::get('/dashboard/merk', [MerkController::class, 'index'])->name('merk');
-Route::post('/dashboard/merk', [MerkController::class, 'store'])->name('store.merk');
-Route::put('/dashboard/merk/{id_merk}', [MerkController::class, 'update'])->name('update.merk');
-Route::delete('/dashboard/merk/{id_merk}', [MerkController::class, 'destroy'])->name('delete.merk');
+Route::post('/dashboard/merk', [MerkController::class, 'store'])->name('store.merek');
+Route::put('/dashboard/merk/{id_merk}', [MerkController::class, 'update'])->name('update.merek');
+Route::delete('/dashboard/merk/{id_merk}', [MerkController::class, 'destroy'])->name('delete.merek');
 
 Route::get('/dashboard/jenis', [JenisController::class, 'index'])->name('jenis');
 Route::post('/dashboard/jenis', [JenisController::class, 'store'])->name('store.jenis');

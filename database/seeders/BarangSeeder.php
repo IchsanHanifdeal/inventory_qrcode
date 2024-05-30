@@ -14,7 +14,6 @@ class BarangSeeder extends Seeder
     public function run(): void
     {
         Barang::create([
-            'foto' => 'https://img.freepik.com/free-photo/close-up-mystery-box_23-2149631472.jpg',
             'kode' => 'B001',
             'nama' => 'Barang 001',
             'stok' => '0',
@@ -23,7 +22,6 @@ class BarangSeeder extends Seeder
             'id_merk' => '2',
         ]);
         Barang::create([
-            'foto' => 'https://img.freepik.com/free-photo/close-up-mystery-box_23-2149631472.jpg',
             'kode' => 'B002',
             'nama' => 'Barang 002',
             'stok' => '10',

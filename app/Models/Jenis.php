@@ -10,5 +10,5 @@ class Jenis extends Model
     use HasFactory;
     protected $table = "jenis";
     protected $primaryKey = "id_jenis";
-    protected $fillable = ['jenis'];
+    protected $fillable = ['kode_jenis', 'jenis'];
 }

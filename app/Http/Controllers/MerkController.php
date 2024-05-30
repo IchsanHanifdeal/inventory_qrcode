@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Merk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MerkController extends Controller
 {
@@ -32,7 +33,30 @@ class MerkController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $validator = Validator::make($request->all(), [
+      'kode_merek' => 'required|unique:merk,kode',
+      'nama_merek' => 'required|unique:merk,merk',
+    ], [
+      'kode_merek.unique' => 'Kode Merk sudah terdaftar, silahkan daftarkan Kode Merk lain',
+      'nama_merek.unique' => 'Nama Merk sudah terdaftar, silahkan daftarkan Nama Merk lain',
+    ]);
+
+    if ($validator->fails()) {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    try {
+      $merk = Merk::create([
+        'kode' => $request->kode_merek,
+        'merk' => $request->nama_merek,
+      ]);
+
+      toastr()->success('Pendaftaran Merk Berhasil!');
+      return redirect()->route('merk');
+    } catch (\Exception $e) {
+      toastr()->error('Pendaftaran gagal: ' . $e->getMessage());
+      return redirect()->back()->withInput();
+    }
   }
 
   /**
