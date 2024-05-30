@@ -68,8 +68,12 @@
                                         </td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                            <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
-                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
+                                            <x-lucide-square-pen
+                                                onclick="update_merek_modal.showModal();initUpdate('merk', {{ $item }})"
+                                                class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            <x-lucide-trash-2
+                                                onclick="delete_modal.showModal();initDelete('merk', {{ $item }})"
+                                                class="size-5 hover:stroke-rose-500 cursor-pointer" />
                                         </td>
                                     </tr>
                                 @endforeach

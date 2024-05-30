@@ -76,9 +76,15 @@
                                         <td>{{ $item->updated_at }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                            <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
-                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
-                                            <x-lucide-qr-code class="size-5 hover:stroke-emerald-500 cursor-pointer" />
+                                            <x-lucide-square-pen
+                                                onclick="update_barang_modal.showModal();initUpdate('barang', {{ $item }})"
+                                                class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            <x-lucide-trash-2
+                                                onclick="delete_modal.showModal();initDelete('barang', {{ $item }})"
+                                                class="size-5 hover:stroke-rose-500 cursor-pointer" />
+                                            <x-lucide-scan-barcode
+                                                onclick="barcode_modal.showModal();initBarcode({{ $item }})"
+                                                class="size-5 hover:stroke-emerald-500 cursor-pointer" />
                                         </td>
                                     </tr>
                                 @endforeach
@@ -89,12 +95,10 @@
             </div>
         @endforeach
     </div>
-
 </x-dashboard.main>
 
-
 <dialog id="tambah_barang_modal" class="modal modal-bottom sm:modal-middle">
-    <form method="POST" class="modal-box" action="{{ route('store.barang')}}">
+    <form method="POST" class="modal-box" action="{{ route('store.barang') }}">
         @csrf
         <h3 class="modal-title capitalize">
             Tambah Barang
@@ -133,7 +137,7 @@
                     @foreach ($merk as $item)
                         {{-- value => UNCILO 'atau' NIKE 'dan lain lain' --}}
                         {{-- value nantnya tidak memakai kode, buat visual aja --}}
-                        <option value="{{ $item->id_merk }}">{{ $item->kode }} - {{ $item->merk}}</option>
+                        <option value="{{ $item->id_merk }}">{{ $item->kode }} - {{ $item->merk }}</option>
                     @endforeach
                 </select>
                 @error('merek_barang')
@@ -143,7 +147,8 @@
             <div class="flex items-center gap-3 w-full">
                 <div class="input-label">
                     <h1 class="label">Masukan Stok Barang:</h1>
-                    <input required name="stok_barang" type="number" placeholder="Contoh: 1000" value="0" readonly>
+                    <input required name="stok_barang" type="number" placeholder="Contoh: 1000" value="0"
+                        readonly>
                     @error('stok_barang')
                         <span class="validated">{{ $message }}</span>
                     @enderror
@@ -160,6 +165,81 @@
         <div class="modal-action">
             <button onclick="tambah_barang_modal.close()" class="btn" type="button">Tutup</button>
             <button type="submit" class="btn btn-secondary capitalize">Tambah Barang</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="update_barang_modal" class="modal modal-bottom sm:modal-middle">
+    <form method="POST" class="modal-box" action="{{ route('store.barang') }}">
+        @csrf
+        <h3 class="modal-title capitalize">
+            Update Barang
+        </h3>
+        <div class="modal-body">
+            <div class="input-label">
+                <h1 class="label">Masukan Kode Barang:</h1>
+                <input required id='up_kode_barang' name="up_kode_barang" type="text"
+                    placeholder="Contoh: DHI3748NM34378">
+                @error('up_kode_barang')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Nama Barang:</h1>
+                <input required id='up_nama_barang' name="up_nama_barang" type="text"
+                    placeholder="Contoh: Celana Panjang Jeans [L]">
+                @error('up_nama_barang')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Jenis Barang:</h1>
+                <select required id='up_jenis_barang' name="up_jenis_barang" class="uppercase select select-sm">
+                    @foreach ($jenis as $item)
+                        {{-- value => PAKAIAN 'atau' MAKANAN 'dan lain lain' --}}
+                        {{-- value nantnya tidak memakai kode, buat visual aja --}}
+                        <option value="{{ $item->id_jenis }}">{{ $item->kode_jenis }} - {{ $item->jenis }}</option>
+                    @endforeach
+                </select>
+                @error('up_jenis_barang')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Merek Barang:</h1>
+                <select required id='up_merek_barang' name="up_merek_barang" class="uppercase select select-sm">
+                    @foreach ($merk as $item)
+                        {{-- value => UNCILO 'atau' NIKE 'dan lain lain' --}}
+                        {{-- value nantnya tidak memakai kode, buat visual aja --}}
+                        <option value="{{ $item->id_merk }}">{{ $item->kode }} - {{ $item->merk }}</option>
+                    @endforeach
+                </select>
+                @error('up_merek_barang')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="flex items-center gap-3 w-full">
+                <div class="input-label">
+                    <h1 class="label">Masukan Stok Barang:</h1>
+                    <input required id='up_stok_barang' name="up_stok_barang" type="number"
+                        placeholder="Contoh: 1000" value="0" readonly>
+                    @error('up_stok_barang')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Satuan Barang:</h1>
+                    <input required id='up_satuan_barang' name="up_satuan_barang" type="text"
+                        placeholder="Contoh: PCS">
+                    @error('up_satuan_barang')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="modal-action">
+            <button onclick="update_barang_modal.close()" class="btn" type="button">Tutup</button>
+            <button type="submit" class="btn btn-secondary capitalize">Update Barang</button>
         </div>
     </form>
 </dialog>

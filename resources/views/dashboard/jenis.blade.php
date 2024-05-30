@@ -13,7 +13,7 @@
                     </p>
                     <p class="text-lg font-semibold text-gray-700 line-clamp-1">
                         {{ $type == 'total_jenis' ? $total_jenis : '' }}
-                        {{ $type == 'jenis_terbaru' ? ($jenis_terbaru->jenis ?? '-') : '' }}
+                        {{ $type == 'jenis_terbaru' ? $jenis_terbaru->jenis ?? '-' : '' }}
                     </p>
                 </div>
             </div>
@@ -67,12 +67,16 @@
                                         <td class="font-semibold uppercase">{{ $item->kode_jenis }}</td>
                                         <td
                                             class="text-blue-500 font-semibold uppercase hover:underline cursor-pointer">
-                                            {{ $item -> jenis}}
+                                            {{ $item->jenis }}
                                         </td>
-                                        <td>{{ $item-> created_at}}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                            <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
-                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
+                                            <x-lucide-square-pen
+                                                onclick="update_jenis_barang_modal.showModal();initUpdate('jenis', {{ $item }})"
+                                                class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            <x-lucide-trash-2
+                                                onclick="delete_modal.showModal();initDelete('jenis', {{ $item }})"
+                                                class="size-5 hover:stroke-rose-500 cursor-pointer" />
                                         </td>
                                     </tr>
                                 @endforeach

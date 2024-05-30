@@ -63,7 +63,9 @@
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
-                                            <x-lucide-qr-code class="size-5 hover:stroke-emerald-500 cursor-pointer" />
+                                            <x-lucide-scan-barcode
+                                                onclick="barcode_modal.showModal();initBarcode({{ $item }})"
+                                                class="size-5 hover:stroke-emerald-500 cursor-pointer" />
                                         </td>
                                     </tr>
                                 @endforeach

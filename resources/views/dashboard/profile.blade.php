@@ -40,7 +40,7 @@
                         {{-- username --}}
                         @kejaaganteng
                     </h1>
-                    <p class="text-sm opacity-60 line-clamp-1">
+                     <p class="text-sm opacity-60 line-clamp-1">
                         zaadevofc@gmail.com
                     </p>
                     <div class="mt-3">
