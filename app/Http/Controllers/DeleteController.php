@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Merk;
 use App\Models\Jenis;
 use App\Models\Barang;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +19,9 @@ class DeleteController extends Controller
             switch ($type) {
                 case 'barang':
                     $model = Barang::where('id_barang', $id)->firstOrFail();
+                    break;
+                case 'user':
+                    $model = User::where('id_user', $id)->firstOrFail();
                     break;
                 case 'merk':
                     $model = Merk::where('id_merk', $id)->firstOrFail();

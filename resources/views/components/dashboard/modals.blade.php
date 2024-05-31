@@ -146,13 +146,14 @@
             data[type];
 
         const id = type === 'barang' ? data['id_barang'] :
+            type === 'user' ? data['id_user'] :
             type === 'merk' ? data['id_merk'] :
             type === 'jenis' ? data['id_jenis'] : '';
 
         document.getElementById('dl_data_type').innerText = type;
         document.getElementById('dl_data_nama').innerText = `"${val}"`;
         document.getElementById('dl_body').innerHTML =
-            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat di urungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
+            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat diurungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
 
         const form = document.querySelector('#delete_modal form');
         form.action = `/delete/${type}/${id}`;
