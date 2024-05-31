@@ -86,8 +86,9 @@
             Barcode <span id="bc_data_nama_barang"></span>
         </h3>
         <div class="modal-body text-center">
-            <div class="mx-auto">
-                <svg id="bc_preview"></svg>
+            <div class="mx-auto my-2">
+                <span id="bc_preview"></span>
+                <strong id="bc_data_kode_barang" class="font-mono text-rose-600"></strong>
             </div>
         </div>
         <div class="modal-action">
@@ -118,13 +119,17 @@
 <script>
     const el = id => document.getElementById(id) || ''
     let barcodeData;
+    
+    var qrcode = new QRCode('bc_preview', {
+        width: 200,
+        height: 200
+    });
 
     function initBarcode(data) {
         barcodeData = data;
         el('bc_data_nama_barang').innerText = `"${data.nama}"`
-        JsBarcode(el('bc_preview'), data.kode, {
-            height: 60
-        });
+        el('bc_data_kode_barang').innerText = data.kode
+        qrcode.makeCode(data.kode)
     }
 
     function initUpdate(type, data) {
@@ -161,6 +166,7 @@
             .then(() => {
                 el('copy').innerText = 'di salin!';
                 el('copy').classList.add('btn-success');
+                mark('bc_data_kode_barang')
                 setTimeout(() => {
                     el('copy').innerText = 'Salin Kode Barang';
                     el('copy').classList.remove('btn-success');
