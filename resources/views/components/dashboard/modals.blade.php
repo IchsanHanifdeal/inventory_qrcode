@@ -39,15 +39,92 @@
     </dialog>
 @endforeach
 
+@foreach (['update_merek_modal', 'update_jenis_barang_modal'] as $item)
+    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
+        <form method="POST" class="modal-box">
+            @csrf
+            <h3 class="modal-title capitalize">
+                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
+            </h3>
+            <div class="modal-body">
+                <div class="input-label">
+                    <h1 class="label">Masukan Kode {{ explode('_', $item)[1] }}:</h1>
+
+                    {{-- name => kode_merek 'atau' kode_jenis --}}
+                    <input required id="up_kode_{{ explode('_', $item)[1] }}"
+                        name="up_kode_{{ explode('_', $item)[1] }}" type="text"
+                        placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'UNC' : 'PKN' }}">
+                    @error('up_kode_' . explode('_', $item)[1])
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Nama {{ explode('_', $item)[1] }}:</h1>
+
+                    {{-- name => nama_merek 'atau' nama_jenis --}}
+                    <input required id="up_nama_{{ explode('_', $item)[1] }}"
+                        name="up_nama_{{ explode('_', $item)[1] }}" type="text"
+                        placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'Uniclo' : 'Pakaian' }}">
+                    @error('up_nama_' . explode('_', $item)[1])
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="modal-action">
+                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">
+                    Update {{ explode('_', $item)[1] }}
+                </button>
+            </div>
+        </form>
+    </dialog>
+@endforeach
+
+@foreach (['tambah_barang_masuk_modal', 'tambah_barang_keluar_modal'] as $item)
+    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
+        <form method="POST" class="modal-box">
+            <h3 class="modal-title capitalize">
+                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
+            </h3>
+            <div class="modal-body">
+                <div class="input-label">
+                    <h1 class="label">Masukan Barang {{ explode('_', $item)[2] }}:</h1>
+                    {{-- name => barang_masuk 'atau' barang_keluar --}}
+                    <select required name="barang_{{ explode('_', $item)[2] }}" class="uppercase select select-sm">
+                        @foreach ([['id' => 'FDKJFEB44958495', 'nama_barang' => 'Celana Panjang Pria Jeans [L]'], ['id' => 'FDKJFEB44965442', 'nama_barang' => 'Celana Panjang Wanita Kasual [L]']] as $barang)
+                            <option value={{ $barang['id'] }}>{{ $barang['nama_barang'] }}</option>
+                        @endforeach
+                    </select>
+                    @error('barang_' . explode('_', $item)[2])
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Jumlah Barang:</h1>
+                    <input required name="jumlah_barang" type="number" placeholder="Contoh: 1000">
+                    @error('jumlah_barang')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="modal-action">
+                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">
+                    Tambah Barang {{ explode('_', $item)[2] }}</button>
+            </div>
+        </form>
+    </dialog>
+@endforeach
+
 <dialog id="barcode_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
         <h3 class="modal-title capitalize">
-            Barcode <span id="bc_data_nama_barang"></span>
+            QR Code <span id="bc_data_nama_barang"></span>
         </h3>
         <div class="modal-body text-center">
-            <div class="mx-auto my-2">
-                <span id="bc_preview"></span>
-                <strong id="bc_data_kode_barang" class="font-mono text-rose-600"></strong>
+            <div class="flex flex-col gap-2 mx-auto my-2 group">
+                <div id="bc_preview" class="group-hover:shadow-2xl group-hover:shadow-gray-950 bg-transparent"></div>
+                <strong id="bc_data_kode_barang" class="font-mono group-hover:opacity-0 text-blue-500"></strong>
             </div>
         </div>
         <div class="modal-action">
@@ -78,13 +155,18 @@
 <script>
     const el = id => document.getElementById(id) || ''
     let barcodeData;
+    
+    var qrcode = new QRCode('bc_preview', {
+        width: 200,
+        height: 200
+    });
 
     function initBarcode(data) {
-        barcodeData = data;
-        el('bc_data_nama_barang').innerText = `"${data.nama}"`
-        JsBarcode(el('bc_preview'), data.kode, {
-            height: 60
-        });
+        let init = data?.barang || data;
+        barcodeData = init;
+        el('bc_data_nama_barang').innerText = `"${init.nama}"`
+        el('bc_data_kode_barang').innerText = init.kode
+        qrcode.makeCode(init.kode)
     }
 
     function initUpdate(type, data) {
@@ -121,6 +203,7 @@
             .then(() => {
                 el('copy').innerText = 'di salin!';
                 el('copy').classList.add('btn-success');
+                mark('bc_data_kode_barang')
                 setTimeout(() => {
                     el('copy').innerText = 'Salin Kode Barang';
                     el('copy').classList.remove('btn-success');

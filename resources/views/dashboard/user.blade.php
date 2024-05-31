@@ -50,14 +50,12 @@
                                         <td class="font-semibold uppercase">{{ $item->role }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                        <td class="flex items-center gap-4">
                                             <x-lucide-square-pen
                                                 onclick="update_user_modal.showModal();initUpdate('user', {{ $item }})"
                                                 class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2
                                                 onclick="delete_modal.showModal();initDelete('user', {{ $item }})"
                                                 class="size-5 hover:stroke-rose-500 cursor-pointer" />
-                                        </td>
                                         </td>
                                     </tr>
                                 @endforeach
