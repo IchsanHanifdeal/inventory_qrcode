@@ -45,8 +45,9 @@
             Barcode <span id="bc_data_nama_barang"></span>
         </h3>
         <div class="modal-body text-center">
-            <div class="mx-auto">
-                <svg id="bc_preview"></svg>
+            <div class="mx-auto my-2">
+                <span id="bc_preview"></span>
+                <strong id="bc_data_kode_barang" class="font-mono text-rose-600"></strong>
             </div>
         </div>
         <div class="modal-action">
