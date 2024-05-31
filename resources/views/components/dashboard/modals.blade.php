@@ -80,6 +80,42 @@
     </dialog>
 @endforeach
 
+@foreach (['tambah_barang_masuk_modal', 'tambah_barang_keluar_modal'] as $item)
+    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
+        <form method="POST" class="modal-box">
+            <h3 class="modal-title capitalize">
+                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
+            </h3>
+            <div class="modal-body">
+                <div class="input-label">
+                    <h1 class="label">Masukan Barang {{ explode('_', $item)[2] }}:</h1>
+                    {{-- name => barang_masuk 'atau' barang_keluar --}}
+                    <select required name="barang_{{ explode('_', $item)[2] }}" class="uppercase select select-sm">
+                        @foreach ([['id' => 'FDKJFEB44958495', 'nama_barang' => 'Celana Panjang Pria Jeans [L]'], ['id' => 'FDKJFEB44965442', 'nama_barang' => 'Celana Panjang Wanita Kasual [L]']] as $barang)
+                            <option value={{ $barang['id'] }}>{{ $barang['nama_barang'] }}</option>
+                        @endforeach
+                    </select>
+                    @error('barang_' . explode('_', $item)[2])
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Jumlah Barang:</h1>
+                    <input required name="jumlah_barang" type="number" placeholder="Contoh: 1000">
+                    @error('jumlah_barang')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="modal-action">
+                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">
+                    Tambah Barang {{ explode('_', $item)[2] }}</button>
+            </div>
+        </form>
+    </dialog>
+@endforeach
+
 <dialog id="barcode_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
         <h3 class="modal-title capitalize">
@@ -99,19 +135,18 @@
 </dialog>
 
 <dialog id="delete_modal" class="modal modal-bottom sm:modal-middle">
-    <form method="POST" class="modal-box">
-        @csrf
-        @method('DELETE')
+    <form class="modal-box">
         <h3 class="modal-title capitalize">
             Hapus <span id="dl_data_type"></span> <span id="dl_data_nama"></span>
         </h3>
         <div class="modal-body" id="dl_body"></div>
         <div class="modal-action">
-            <button class="btn btn-error capitalize text-white" type="submit">
+
+            {{-- maininnya disini --}}
+            <button class="btn btn-error capitalize text-white">
                 Yakin
             </button>
-            <button type="button" onclick="document.getElementById('delete_modal').close()"
-                class="btn">Batal</button>
+            <button onclick="delete_modal.close()" class="btn" type="button">Batal</button>
         </div>
     </form>
 </dialog>
@@ -134,6 +169,13 @@
         el('up_kode_jenis').value = data.kode_jenis
         el('up_nama_jenis').value = data.jenis
 
+        el('up_kode_barang').value = data.kode
+        el('up_nama_barang').value = data.nama
+        el('up_jenis_barang').value = data.id_jenis
+        el('up_merek_barang').value = data.id_merk
+        el('up_stok_barang').value = data.stok
+        el('up_satuan_barang').value = data.satuan
+
         el('up_nama').value = data.name
         el('up_username').value = data.username
         el('up_email').value = data.email
@@ -141,24 +183,13 @@
     }
 
     function initDelete(type, data) {
-        const val = type === 'barang' ? data['nama'] :
-            type === 'user' ? data['username'] :
-            data[type];
+        const val = data[type == 'barang' ? 'nama' : type == 'user' ? 'username' : type];
 
-        const id = type === 'barang' ? data['id_barang'] :
-            type === 'user' ? data['id_user'] :
-            type === 'merk' ? data['id_merk'] :
-            type === 'jenis' ? data['id_jenis'] : '';
-
-        document.getElementById('dl_data_type').innerText = type;
-        document.getElementById('dl_data_nama').innerText = `"${val}"`;
-        document.getElementById('dl_body').innerHTML =
-            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat diurungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
-
-        const form = document.querySelector('#delete_modal form');
-        form.action = `/delete/${type}/${id}`;
-
-        document.getElementById('delete_modal').showModal();
+        el('dl_data_type').innerText = type;
+        el('dl_data_nama').innerText = `"${val}"`;
+        el('dl_body').innerHTML =
+            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat di
+                urungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
     }
 
     function copyKodeBarang() {

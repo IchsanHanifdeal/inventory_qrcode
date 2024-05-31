@@ -78,3 +78,37 @@
         @endforeach
     </div>
 </x-dashboard.main>
+
+<dialog id="tambah_barang_keluar_modal" class="modal modal-bottom sm:modal-middle">
+    <form action="{{ route('store.barangmasuk') }}" method="POST" class="modal-box">
+        @csrf
+        <h3 class="modal-title capitalize">
+            Tambah Barang Keluar
+        </h3>
+        <div class="modal-body">
+            <div class="input-label">
+                <h1 class="label">Masukan Barang Keluar:</h1>
+                <select required name="barang_keluar" class="uppercase select select-sm">
+                    @foreach ($barang as $b)
+                        <option value="{{ $b->id_barang }}">{{ $b->kode }} - {{ $b->nama }}</option>
+                    @endforeach
+                </select>
+                @error('barang_keluar')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Jumlah Barang:</h1>
+                <input required name="jumlah_barang" type="number" placeholder="Contoh: 1000">
+                @error('jumlah_barang')
+                    <span class="validated">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="modal-action">
+            <button onclick="tambah_barang_keluar_modal.close()" class="btn" type="button">Tutup</button>
+            <button type="submit" class="btn btn-secondary capitalize">
+                Tambah Barang Keluar</button>
+        </div>
+    </form>
+</dialog>

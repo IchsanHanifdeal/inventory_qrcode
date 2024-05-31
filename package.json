@@ -3,6 +3,7 @@
     "scripts": {
         "dev:vite": "vite",
         "dev:php": "php artisan serve",
+        "migrate:fresh": "php artisan migrate:fresh --seed",
         "build": "vite build"
     },
     "devDependencies": {
