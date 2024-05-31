@@ -57,6 +57,7 @@
         </li>
         <li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="px-0">
+                @csrf
                 <a class="flex items-center px-2.5 gap-4" href="#"
                     onclick="event.preventDefault(); confirmLogout();">
                     <x-lucide-log-out />

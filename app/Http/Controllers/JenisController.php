@@ -77,9 +77,27 @@ class JenisController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Jenis $jenis)
+  public function update(Request $request, $id_jenis)
   {
-    //
+    $jenis = jenis::findOrFail($id_jenis);
+
+    $validatedData = $request->validate([
+      'up_kode_jenis' => 'required|string|unique:jenis,kode_jenis',
+      'up_nama_jenis' => 'required|string|unique:jenis,jenis',
+    ]);
+
+    $jenis->kode_jenis = $validatedData['up_kode_jenis'];
+    $jenis->jenis = $validatedData['up_nama_jenis'];
+
+    $jenis->update();
+
+    if (!$jenis) {
+      toastr()->error('gagal jenis jenis!');
+      return redirect()->back();
+    }
+
+    toastr()->success('Ubah jenis berhasil!');
+    return redirect()->back();
   }
 
   /**

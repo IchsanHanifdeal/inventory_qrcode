@@ -15,9 +15,9 @@
                     </p>
                     <p id="{{ $type }}" class="text-lg uppercase font-semibold text-gray-700 line-clamp-1">
                         {{ $type == 'waktu' ? '0' : '' }}
-                        {{ $type == 'role' ? 'admin' : '' }}
-                        {{ $type == 'terakhir_login' ? '20:00 12/04/24' : '' }}
-                        {{ $type == 'register' ? '20:00 12/04/24' : '' }}
+                        {{ $type == 'role' ? $role : '' }}
+                        {{ $type == 'terakhir_login' ? $login : '' }}
+                        {{ $type == 'register' ? $register : '' }}
                     </p>
                 </div>
             </div>
@@ -32,51 +32,55 @@
                             src="https://avatars.githubusercontent.com/u/93970726?v=4" />
                     </div>
                     <h1 class="badge badge-sm badge-neutral font-medium uppercase">
-                        ADMIN
+                        {{ $role }}
                     </h1>
                 </div>
                 <div>
                     <h1 class="flex items-start gap-3 lowercase line-clamp-1 font-semibold font-[onest] sm:text-lg">
                         {{-- username --}}
-                        @kejaaganteng
+                        {{ '@' . $username }}
                     </h1>
                      <p class="text-sm opacity-60 line-clamp-1">
-                        zaadevofc@gmail.com
+                        {{ $email }}
                     </p>
                     <div class="mt-3">
                         <div>
                             <h1 class="text-sm font-semibold">Nama Panggilan:</h1>
                             <p class="text-sm opacity-60 line-clamp-1">
-                                Kejaa
+                                {{ $username }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <form class="flex flex-col gap-3">
+            <form class="flex flex-col gap-3" method="POST" action="{{ route('update.profile', ['id_user' => $id_user]) }}">
+                @csrf
+                @method('PUT')
                 <div class="input-label">
                     <h1 class="label">Nama:</h1>
-                    <input required name="nama" value="Kejaa" type="text" placeholder="...">
+                    <input required name="nama" value="{{ $name }}" type="text" placeholder="...">
                     @error('nama')
                         <span class="validated">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-label">
                     <h1 class="label">Username:</h1>
-                    <input required name="username" value="zaadevofc" type="text" placeholder="...">
+                    <input required name="username" value="{{ $username }}" type="text" placeholder="...">
                     @error('username')
                         <span class="validated">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-label">
                     <h1 class="label">Email:</h1>
-                    <input disabled name="email" value="zaadevofc@gmail.com" type="email" placeholder="...">
+                    <input disabled name="email" value="{{ $email }}" type="email" placeholder="...">
                 </div>
                 <button type="submit" class="btn btn-secondary mt-5 ml-auto capitalize w-fit">Update Profile</button>
             </form>
         </div>
         <div class="flex flex-col gap-5 p-5 sm:p-7 bg-white border-back rounded-xl w-full h-fit">
-            <form class="flex flex-col gap-3">
+            <form class="flex flex-col gap-3" method="POST" action="{{ route('update.password', ['id_user' => $id_user])}}">
+                @csrf
+                @method('PUT')
                 <div class="input-label">
                     <h1 class="label">Password Lama:</h1>
                     <input required name="password_lama" type="password" placeholder="...">

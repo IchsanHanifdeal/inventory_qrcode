@@ -78,9 +78,27 @@ class MerkController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Merk $merk)
+  public function update(Request $request, $id_merk)
   {
-    //
+    $merk = merk::findOrFail($id_merk);
+
+    $validatedData = $request->validate([
+      'up_kode_merek' => 'required|string|unique:merk,kode',
+      'up_nama_merek' => 'required|string|unique:merk,merk',
+    ]);
+
+    $merk->kode = $validatedData['up_kode_merek'];
+    $merk->merk = $validatedData['up_nama_merek'];
+
+    $merk->update();
+
+    if (!$merk) {
+      toastr()->error('gagal merk merk!');
+      return redirect()->back();
+    }
+
+    toastr()->success('Ubah merk berhasil!');
+    return redirect()->back();
   }
 
   /**

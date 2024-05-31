@@ -69,8 +69,49 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen
-                                                onclick="update_merek_modal.showModal();initUpdate('merk', {{ $item }})"
+                                                onclick="update_merek_modal_{{ $item->id_merk }}.showModal();initUpdate('merk', {{ $item }})"
                                                 class="size-5 hover:stroke-blue-500 cursor-pointer" />
+
+                                                <dialog id="update_merek_modal_{{ $item->id_merk }}" class="modal modal-bottom sm:modal-middle">
+                                                    <form method="POST" class="modal-box" action="{{ route('update.merek', ['id_merk' => $item->id_merk] ) }}">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <h3 class="modal-title capitalize">
+                                                            Update Merek {{ $item->merk }}
+                                                        </h3>
+                                                        <div class="modal-body">
+                                                            <div class="input-label">
+                                                                <h1 class="label">Masukan Kode Merek:</h1>
+                                                
+                                                                {{-- name => kode_merek 'atau' kode_jenis --}}
+                                                                <input required id="up_kode_Merek"
+                                                                    name="up_kode_merek" type="text"
+                                                                    placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'UNC' : 'PKN' }}" value="{{ $item->kode }}">
+                                                                @error('up_kode_merek')
+                                                                    <span class="validated">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="input-label">
+                                                                <h1 class="label">Masukan Nama Merek:</h1>
+                                                
+                                                                {{-- name => nama_merek 'atau' nama_jenis --}}
+                                                                <input required id="up_nama_Merek"
+                                                                    name="up_nama_merek" type="text"
+                                                                    placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'Uniclo' : 'Pakaian' }}" value="{{ $item->merk }}">
+                                                                @error('up_nama_merek')
+                                                                    <span class="validated">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-action">
+                                                            <button onclick="update_merek_modal_{{ $item->id_merk }}.close()" class="btn" type="button">Tutup</button>
+                                                            <button type="submit" class="btn btn-secondary capitalize">
+                                                                Update Merek
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </dialog>
+
                                             <x-lucide-trash-2
                                                 onclick="delete_modal.showModal();initDelete('merk', {{ $item }})"
                                                 class="size-5 hover:stroke-rose-500 cursor-pointer" />

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,15 +32,25 @@ class LoginController extends Controller
             if ($userRole == 'admin') {
                 $request->session()->regenerate();
                 $user = Auth::user();
+
+                $loginTime = Carbon::now();
+                $request->session()->put('login_time', $loginTime->toDateTimeString());
+
+                $request->session()->put('name', $user->name);
                 $request->session()->put('id_user', $user->id_user);
                 $request->session()->put('username', $user->username);
                 $request->session()->put('email', $user->email);
                 $request->session()->put('role', $user->role);
+                $request->session()->put('created_at', $user->created_at);
 
                 return redirect()->intended('dashboard')->with('success', 'Login successful!');
             } elseif ($userRole == 'user') {
                 $request->session()->regenerate();
                 $user = Auth::user();
+
+                $loginTime = Carbon::now();
+                $request->session()->put('login_time', $loginTime->toDateTimeString());
+
                 $request->session()->put('id_user', $user->id_user);
                 $request->session()->put('username', $user->username);
                 $request->session()->put('email', $user->email);

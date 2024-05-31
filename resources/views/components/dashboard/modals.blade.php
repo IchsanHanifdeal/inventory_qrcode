@@ -39,56 +39,14 @@
     </dialog>
 @endforeach
 
-@foreach (['update_merek_modal', 'update_jenis_barang_modal'] as $item)
-    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
-        <form method="POST" class="modal-box">
-            @csrf
-            <h3 class="modal-title capitalize">
-                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
-            </h3>
-            <div class="modal-body">
-                <div class="input-label">
-                    <h1 class="label">Masukan Kode {{ explode('_', $item)[1] }}:</h1>
-
-                    {{-- name => kode_merek 'atau' kode_jenis --}}
-                    <input required id="up_kode_{{ explode('_', $item)[1] }}"
-                        name="up_kode_{{ explode('_', $item)[1] }}" type="text"
-                        placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'UNC' : 'PKN' }}">
-                    @error('up_kode_' . explode('_', $item)[1])
-                        <span class="validated">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="input-label">
-                    <h1 class="label">Masukan Nama {{ explode('_', $item)[1] }}:</h1>
-
-                    {{-- name => nama_merek 'atau' nama_jenis --}}
-                    <input required id="up_nama_{{ explode('_', $item)[1] }}"
-                        name="up_nama_{{ explode('_', $item)[1] }}" type="text"
-                        placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'Uniclo' : 'Pakaian' }}">
-                    @error('up_nama_' . explode('_', $item)[1])
-                        <span class="validated">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-            <div class="modal-action">
-                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
-                <button type="submit" class="btn btn-secondary capitalize">
-                    Update {{ explode('_', $item)[1] }}
-                </button>
-            </div>
-        </form>
-    </dialog>
-@endforeach
-
 <dialog id="barcode_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
         <h3 class="modal-title capitalize">
             Barcode <span id="bc_data_nama_barang"></span>
         </h3>
         <div class="modal-body text-center">
-            <div class="mx-auto my-2">
-                <span id="bc_preview"></span>
-                <strong id="bc_data_kode_barang" class="font-mono text-rose-600"></strong>
+            <div class="mx-auto">
+                <svg id="bc_preview"></svg>
             </div>
         </div>
         <div class="modal-action">
@@ -119,17 +77,13 @@
 <script>
     const el = id => document.getElementById(id) || ''
     let barcodeData;
-    
-    var qrcode = new QRCode('bc_preview', {
-        width: 200,
-        height: 200
-    });
 
     function initBarcode(data) {
         barcodeData = data;
         el('bc_data_nama_barang').innerText = `"${data.nama}"`
-        el('bc_data_kode_barang').innerText = data.kode
-        qrcode.makeCode(data.kode)
+        JsBarcode(el('bc_preview'), data.kode, {
+            height: 60
+        });
     }
 
     function initUpdate(type, data) {
@@ -166,7 +120,6 @@
             .then(() => {
                 el('copy').innerText = 'di salin!';
                 el('copy').classList.add('btn-success');
-                mark('bc_data_kode_barang')
                 setTimeout(() => {
                     el('copy').innerText = 'Salin Kode Barang';
                     el('copy').classList.remove('btn-success');

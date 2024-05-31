@@ -72,8 +72,49 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen
-                                                onclick="update_jenis_barang_modal.showModal();initUpdate('jenis', {{ $item }})"
-                                                class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            onclick="update_jenis_modal_{{ $item->id_jenis }}.showModal();initUpdate('jenis', {{ $item }})"
+                                            class="size-5 hover:stroke-blue-500 cursor-pointer" />
+
+                                            <dialog id="update_jenis_modal_{{ $item->id_jenis }}" class="modal modal-bottom sm:modal-middle">
+                                                <form method="POST" class="modal-box" action="{{ route('update.jenis', ['id_jenis' => $item->id_jenis] ) }}">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <h3 class="modal-title capitalize">
+                                                        Update jenis {{ $item->jenis }}
+                                                    </h3>
+                                                    <div class="modal-body">
+                                                        <div class="input-label">
+                                                            <h1 class="label">Masukan Kode jenis:</h1>
+                                            
+                                                            {{-- name => kode_jenis 'atau' kode_jenis --}}
+                                                            <input required id="up_kode_jenis"
+                                                                name="up_kode_jenis" type="text"
+                                                                placeholder="Contoh: {{ $item == 'update_jenis_modal' ? 'UNC' : 'PKN' }}" value="{{ $item->kode }}">
+                                                            @error('up_kode_jenis')
+                                                                <span class="validated">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="input-label">
+                                                            <h1 class="label">Masukan Nama jenis:</h1>
+                                            
+                                                            {{-- name => nama_jenis 'atau' nama_jenis --}}
+                                                            <input required id="up_nama_jenis"
+                                                                name="up_nama_jenis" type="text"
+                                                                placeholder="Contoh: {{ $item == 'update_jenis_modal' ? 'Uniclo' : 'Pakaian' }}" value="{{ $item->jenis }}">
+                                                            @error('up_nama_jenis')
+                                                                <span class="validated">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-action">
+                                                        <button onclick="update_jenis_modal_{{ $item->id_jenis }}.close()" class="btn" type="button">Tutup</button>
+                                                        <button type="submit" class="btn btn-secondary capitalize">
+                                                            Update jenis
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </dialog>
+
                                             <x-lucide-trash-2
                                                 onclick="delete_modal.showModal();initDelete('jenis', {{ $item }})"
                                                 class="size-5 hover:stroke-rose-500 cursor-pointer" />
