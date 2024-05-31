@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangMasukController extends Controller
 {
@@ -15,6 +17,7 @@ class BarangMasukController extends Controller
     return view('dashboard.barang_masuk', [
       'barang_masuk' => BarangMasuk::all(),
       'jumlah_masuk' => BarangMasuk::sum('jumlah'),
+      'barang' => Barang::all(),
     ]);
   }
 
@@ -31,7 +34,33 @@ class BarangMasukController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $request->validate([
+      'barang_masuk' => 'required|exists:barang,id_barang',
+      'jumlah_barang' => 'required|integer|min:1',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+      $masuk = BarangMasuk::create([
+        'id_barang' => $request->barang_masuk,
+        'jumlah' => $request->jumlah_barang,
+        'tanggal' => now(),
+      ]);
+
+      $barang = Barang::findOrFail($request->barang_masuk);
+      $barang->stok += $request->jumlah_barang;
+      $barang->save();
+
+      DB::commit();
+
+      toastr()->success('Input barang masuk berhasil!');
+      return redirect()->back();
+    } catch (\Exception $e) {
+      DB::rollBack();
+      toastr()->error('Input barang masuk gagal: ' . $e->getMessage());
+      return redirect()->back()->withInput();
+    }
   }
 
   /**

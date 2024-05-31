@@ -94,16 +94,29 @@ class BarangController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Barang $barang)
+  public function update(Request $request, $id_barang)
   {
-    //
-  }
+    // Validate the request data
+    $request->validate([
+      'up_kode_barang' => 'required|string|max:255',
+      'up_nama_barang' => 'required|string|max:255',
+      'up_jenis_barang' => 'required|exists:jenis,id_jenis',
+      'up_merek_barang' => 'required|exists:merk,id_merk',
+      'up_satuan_barang' => 'required|string|max:255',
+    ]);
 
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy(Barang $barang)
-  {
-    //
+    // Find the barang record
+    $barang = Barang::where('id_barang', $id_barang)->firstOrFail();
+
+    // Update the barang record
+    $barang->kode = $request->input('up_kode_barang');
+    $barang->nama = $request->input('up_nama_barang');
+    $barang->id_jenis = $request->input('up_jenis_barang');
+    $barang->id_merk = $request->input('up_merek_barang');
+    $barang->satuan = $request->input('up_satuan_barang');
+    $barang->save();
+
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Barang berhasil diupdate');
   }
 }

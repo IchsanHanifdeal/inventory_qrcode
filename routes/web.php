@@ -6,10 +6,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\DeleteController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
-use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,26 +40,23 @@ Route::put('/dashboard/user/{id_user}', [UserController::class, 'update'])->name
 Route::get('/dashboard/merk', [MerkController::class, 'index'])->name('merk');
 Route::post('/dashboard/merk', [MerkController::class, 'store'])->name('store.merek');
 Route::put('/dashboard/merk/{id_merk}', [MerkController::class, 'update'])->name('update.merek');
-Route::delete('/dashboard/merk/{id_merk}', [MerkController::class, 'destroy'])->name('delete.merek');
 
 Route::get('/dashboard/jenis', [JenisController::class, 'index'])->name('jenis');
 Route::post('/dashboard/jenis', [JenisController::class, 'store'])->name('store.jenis');
 Route::put('/dashboard/jenis/{id_jenis}', [JenisController::class, 'update'])->name('update.jenis');
-Route::delete('/dashboard/jenis/{id_jenis}', [JenisController::class, 'destroy'])->name('delete.jenis');
 
 Route::get('/dashboard/barang', [BarangController::class, 'index'])->name('barang');
 Route::post('/dashboard/barang', [BarangController::class, 'store'])->name('store.barang');
-Route::put('/dashboard/barang/{id_barang}', [BarangController::class, 'update'])->name('update.barang');
-Route::delete('/dashboard/barang/{id_barang}', [BarangController::class, 'destroy'])->name('delete.barang');
+Route::put('/dashboard/barang/update/{id_barang}', [BarangController::class, 'update'])->name('update.barang');
 
 Route::get('/dashboard/barang_masuk', [BarangMasukController::class, 'index'])->name('barang_masuk');
 Route::post('/dashboard/barang_masuk', [BarangMasukController::class, 'store'])->name('store.barangmasuk');
 Route::put('/dashboard/barang_masuk/{id_masuk}', [BarangMasukController::class, 'update'])->name('update.barangmasuk');
-Route::delete('/dashboard/barang_masuk/{id_masuk}', [BarangMasukController::class, 'destroy'])->name('delete.barangmasuk');
 
 Route::get('/dashboard/barang_keluar', [BarangKeluarController::class, 'index'])->name('barang_keluar');
 Route::post('/dashboard/barang_keluar', [BarangKeluarController::class, 'store'])->name('store.barangkeluar');
 Route::put('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'update'])->name('update.barangkeluar');
-Route::delete('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'destroy'])->name('delete.barangkeluar');
 
 Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');
+
+Route::delete('/delete/{type}/{id}', [DeleteController::class, 'destroy'])->name('dynamic.delete');

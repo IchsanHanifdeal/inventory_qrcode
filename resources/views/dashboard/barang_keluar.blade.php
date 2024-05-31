@@ -56,14 +56,14 @@
                                             {{ $item->barang->nama }}
                                         </td>
                                         <td class="font-semibold">{{ $item->jumlah }}</td>
-                                        <td class="font-semibold uppercase">{{ $item->jumlah }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->barang->satuan }}</td>
                                         <td class="uppercase">{{ $item->barang->jenis->jenis }}</td>
                                         <td class="uppercase">{{ $item->barang->merk->merk }}</td>
                                         <td>{{ $item->updated_at }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                            <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
-                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
+                                            {{-- <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" /> --}}
                                             <x-lucide-scan-barcode
                                                 onclick="barcode_modal.showModal();initBarcode({{ $item }})"
                                                 class="size-5 hover:stroke-emerald-500 cursor-pointer" />

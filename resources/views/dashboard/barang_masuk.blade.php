@@ -55,14 +55,14 @@
                                             {{ $item->barang->nama }}
                                         </td>
                                         <td class="font-semibold">{{ $item->jumlah }}</td>
-                                        <td class="font-semibold uppercase">{{ $item->jumlah }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->barang->satuan }}</td>
                                         <td class="uppercase">{{ $item->barang->jenis->jenis }}</td>
                                         <td class="uppercase">{{ $item->barang->merk->merk }}</td>
                                         <td>{{ $item->updated_at }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
-                                            <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
-                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" />
+                                            {{-- <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
+                                            <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" /> --}}
                                             <x-lucide-scan-barcode
                                                 onclick="barcode_modal.showModal();initBarcode({{ $item }})"
                                                 class="size-5 hover:stroke-emerald-500 cursor-pointer" />
@@ -77,3 +77,40 @@
         @endforeach
     </div>
 </x-dashboard.main>
+
+@foreach (['tambah_barang_masuk_modal', 'tambah_barang_keluar_modal'] as $item)
+    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
+        <form action="{{ route('store.barangmasuk') }}" method="POST" class="modal-box">
+            @csrf
+            <h3 class="modal-title capitalize">
+                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
+            </h3>
+            <div class="modal-body">
+                <div class="input-label">
+                    <h1 class="label">Masukan Barang {{ explode('_', $item)[2] }}:</h1>
+                    {{-- name => barang_masuk 'atau' barang_keluar --}}
+                    <select required name="barang_{{ explode('_', $item)[2] }}" class="uppercase select select-sm">
+                        @foreach ($barang as $b)
+                            <option value="{{ $b->id_barang }}">{{ $b->kode}} - {{ $b->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('barang_' . explode('_', $item)[2])
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Jumlah Barang:</h1>
+                    <input required name="jumlah_barang" type="number" placeholder="Contoh: 1000">
+                    @error('jumlah_barang')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="modal-action">
+                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">
+                    Tambah Barang {{ explode('_', $item)[2] }}</button>
+            </div>
+        </form>
+    </dialog>
+@endforeach
