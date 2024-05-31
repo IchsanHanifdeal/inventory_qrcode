@@ -24,20 +24,20 @@
         @endforeach
     </div>
     <div class="flex flex-col lg:flex-row gap-5">
-        @foreach (['detail_barang', 'tambah_barang'] as $item)
-            <div onclick="{{ $item . '_modal' }}.showModal()"
+        @foreach (['scan_kode_barang', 'tambah_barang'] as $item)
+            <div onclick="{{ $item . '_modal' }}.showModal();{{ $item == 'scan_kode_barang' ? 'initScanner()' : '' }}"
                 class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
                 <div>
                     <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
                         {{ str_replace('_', ' ', $item) }}
                     </h1>
                     <p class="text-sm opacity-60">
-                        {{ $item == 'detail_barang' ? 'Cari detail info tentang barang' : '' }}
+                        {{ $item == 'scan_kode_barang' ? 'Cari detail info tentang barang' : '' }}
                         {{ $item == 'tambah_barang' ? 'Menambahkan barang untuk di kelola' : '' }}
                     </p>
                 </div>
                 <x-lucide-scan-line
-                    class="{{ $item == 'detail_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+                    class="{{ $item == 'scan_kode_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
                 <x-lucide-plus class="{{ $item == 'tambah_barang' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
@@ -50,6 +50,9 @@
                         {{ str_replace('_', ' ', $item) }}
                     </h1>
                     <p class="text-sm opacity-60">Kelola barang dengan efisien dan efektif</p>
+                </div>
+                <div class="w-full px-5 sm:px-7 bg-zinc-50">
+                    <input type="text" placeholder="Cari data disini...." name="nama_barang" class="input input-sm shadow-md w-full bg-zinc-100">
                 </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
@@ -171,7 +174,8 @@
 
 @foreach ($barang as $i => $item)
     <dialog id="update_barang_modal_{{ $item->id_barang }}" class="modal modal-bottom sm:modal-middle">
-        <form method="POST" class="modal-box" action="{{ route('update.barang', ['id_barang' => $item->id_barang]) }}">
+        <form method="POST" class="modal-box"
+            action="{{ route('update.barang', ['id_barang' => $item->id_barang]) }}">
             @csrf
             @method('PUT')
             <h3 class="modal-title capitalize">Update Barang</h3>
@@ -196,7 +200,8 @@
                     <h1 class="label">Masukan Jenis Barang:</h1>
                     <select required name="up_jenis_barang" class="uppercase select select-sm">
                         @foreach ($jenis as $jenis_item)
-                            <option value="{{ $jenis_item->id_jenis }}" {{ $item->id_jenis == $item->id_jenis ? 'selected' : '' }}>
+                            <option value="{{ $jenis_item->id_jenis }}"
+                                {{ $item->id_jenis == $item->id_jenis ? 'selected' : '' }}>
                                 {{ $jenis_item->kode_jenis }} - {{ $jenis_item->jenis }}
                             </option>
                         @endforeach
@@ -209,7 +214,8 @@
                     <h1 class="label">Masukan Merek Barang:</h1>
                     <select required name="up_merek_barang" class="uppercase select select-sm">
                         @foreach ($merk as $merk_item)
-                            <option value="{{ $merk_item->id_merk }}" {{ $item->id_merk == $item->id_merk ? 'selected' : '' }}>
+                            <option value="{{ $merk_item->id_merk }}"
+                                {{ $item->id_merk == $item->id_merk ? 'selected' : '' }}>
                                 {{ $merk_item->kode }} - {{ $merk_item->merk }}
                             </option>
                         @endforeach
@@ -245,3 +251,83 @@
         </form>
     </dialog>
 @endforeach
+
+<dialog id="detail_barang_modal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+        <h3 class="modal-title capitalize !border-0 !pb-0" id="dtb_nama_header"></h3>
+        <div class="modal-body">
+            @foreach (['dtb_kode_barang', 'dtb_nama_barang', 'dtb_jenis_barang', 'dtb_merk_barang', 'dtb_satuan_barang', 'dtb_stok_barang', 'dtb_barang_didaftar', 'dtb_barang_diupdate'] as $item)
+                <div>
+                    <h1 class="font-bold text-sm capitalize">{{ explode('dtb', str_replace('_', ' ', $item))[1] }}
+                    </h1>
+                    <h1 id="{{ $item }}"></h1>
+                </div>
+            @endforeach
+        </div>
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    let dataz = {!! json_encode($barang) !!}
+    let s = 0
+    let e = 0
+
+    setInterval(() => {
+        s = 1
+        e = 1
+    }, 1000);
+
+    var scanner = new QrScanner(el('bc_scanner'), scan => {
+        let data = dataz.find(y => y.kode == scan.data)
+
+        el('bc_scanner_output').innerText = scan.data
+        el('bc_scanner_output').classList.remove('text-red-500')
+
+        if (data) {
+            if (s) {
+                s = 0
+                createjs.Sound.play('ding')
+            }
+            stopScanner()
+            el('dtb_nama_header').innerText = data.nama
+            el('dtb_kode_barang').innerText = data.kode
+            el('dtb_nama_barang').innerText = data.nama
+            el('dtb_jenis_barang').innerText = `${data.jenis.kode_jenis} - ${data.jenis.jenis}`
+            el('dtb_merk_barang').innerText = `${data.merk.kode} - ${data.merk.merk}`
+            el('dtb_satuan_barang').innerText = data.satuan
+            el('dtb_stok_barang').innerText = data.stok
+
+            el('dtb_barang_didaftar').innerText = dayjs(data.created_at).format('HH:mm:ss DD/MM/YYYY')
+            el('dtb_barang_diupdate').innerText = dayjs(data.updated_at).format('HH:mm:ss DD/MM/YYYY')
+
+            el('detail_barang_modal').showModal()
+            el('scan_kode_barang_modal').close()
+        } else {
+            el('bc_scanner_output').innerText = 'Tidak dapat menemukan barang.'
+            el('bc_scanner_output').classList.add('text-red-500')
+            if (e) {
+                e = 0
+                createjs.Sound.play('error')
+            }
+        }
+    }, {
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+    });
+
+    stopScanner();
+
+    function initScanner() {
+        scanner.start()
+    }
+
+    function stopScanner() {
+        s = 0
+        e = 0
+        scanner.stop()
+        el('bc_scanner_output').innerText = ''
+    }
+</script>

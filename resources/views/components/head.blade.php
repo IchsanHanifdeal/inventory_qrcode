@@ -21,6 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <script src="/qrcodejs/qrcode.min.js"></script>
+    <script src="/qrscanner/qr-scanner.legacy.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
     
     <title>{{ $title ?? 'Beranda' }} | Invetory Barang with QR Code</title>
     <meta name="description" content="....">

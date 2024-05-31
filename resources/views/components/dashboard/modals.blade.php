@@ -152,10 +152,28 @@
     </form>
 </dialog>
 
+<dialog id="scan_kode_barang_modal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+        <h3 class="modal-title capitalize !border-0 !pb-0">
+            Scan Qr Code
+        </h3>
+        <div class="modal-body text-center">
+            <video class="rounded-xl" id="bc_scanner"></video>
+            <h1 id="bc_scanner_output" class="mx-auto font-semibold"></h1>
+        </div>
+        <form method="dialog" onclick="stopScanner()">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+    </div>
+</dialog>
+
 <script>
-    const el = id => document.getElementById(id) || ''
-    let barcodeData;
-    
+    createjs.Sound.registerSound("/sounds/ding.mp3", 'ding');
+    createjs.Sound.registerSound("/sounds/error.mp3", 'error');
+
+    var el = id => document.getElementById(id) || ''
+    var barcodeData;
+
     var qrcode = new QRCode('bc_preview', {
         width: 200,
         height: 200
