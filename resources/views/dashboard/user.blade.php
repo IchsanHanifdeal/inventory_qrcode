@@ -51,7 +51,7 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen
-                                                onclick="update_user_modal.showModal();initUpdate('user', {{ $item }})"
+                                                onclick="document.getElementById('update_user_modal_{{ $item->id_user }}').showModal();initUpdate('user', {{ $item->id_barang }})"
                                                 class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2
                                                 onclick="delete_modal.showModal();initDelete('user', {{ $item }})"
@@ -68,45 +68,50 @@
     </div>
 </x-dashboard.main>
 
-<dialog id="update_user_modal" class="modal modal-bottom sm:modal-middle">
-    <form method="POST" class="modal-box">
-        @csrf
-        <h3 class="modal-title capitalize">
-            Update User
-        </h3>
-        <div class="modal-body">
-            <div class="input-label">
-                <h1 class="label">Masukan Nama:</h1>
-                <input required id="up_nama" name="up_nama" type="text" placeholder="....">
-                @error('nama')
-                    <span class="validated">{{ $message }}</span>
-                @enderror
+@foreach ($user as $i => $item)
+    <dialog id="update_user_modal_{{ $item->id_user }}" class="modal modal-bottom sm:modal-middle">
+        <form method="POST" class="modal-box" action="{{ route('update.user', ['id_user' => $item->id_user]) }}">
+            @csrf
+            @method('PUT')
+            <h3 class="modal-title capitalize">
+                Update User
+            </h3>
+            <div class="modal-body">
+                <div class="input-label">
+                    <h1 class="label">Masukan Nama:</h1>
+                    <input required id="up_nama" name="up_nama" type="text" placeholder="...."
+                        value="{{ $item->name }}">
+                    @error('nama')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Username:</h1>
+                    <input required id="up_username" name="up_username" type="text" placeholder="...."
+                        value="{{ $item->username }}">
+                    @error('username')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Email:</h1>
+                    <input disabled id="up_email" type="text" placeholder="...." value="{{ $item->email }}">
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan Role:</h1>
+                    <select required id="up_role" name="up_role" class="uppercase select select-sm">
+                        <option value="user" {{ $item->role == 'user' ? 'selected' : '' }}>USER</option>
+                        <option value="admin" {{ $item->role == 'admin' ? 'selected' : '' }}>ADMIN</option>
+                    </select>
+                    @error('role')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
-            <div class="input-label">
-                <h1 class="label">Masukan Username:</h1>
-                <input required id="up_username" name="up_username" type="text" placeholder="....">
-                @error('username')
-                    <span class="validated">{{ $message }}</span>
-                @enderror
+            <div class="modal-action">
+                <button onclick="update_user_modal.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">Update User</button>
             </div>
-            <div class="input-label">
-                <h1 class="label">Masukan Email:</h1>
-                <input disabled id="up_email" type="text" placeholder="....">
-            </div>
-            <div class="input-label">
-                <h1 class="label">Masukan Role:</h1>
-                <select required id="up_role" name="up_role" class="uppercase select select-sm">
-                    <option value="user">USER</option>
-                    <option value="admin">ADMIN</option>
-                </select>
-                @error('role')
-                    <span class="validated">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="modal-action">
-            <button onclick="update_user_modal.close()" class="btn" type="button">Tutup</button>
-            <button type="submit" class="btn btn-secondary capitalize">Update User</button>
-        </div>
-    </form>
-</dialog>
+        </form>
+    </dialog>
+@endforeach
