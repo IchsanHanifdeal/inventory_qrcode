@@ -28,6 +28,9 @@
                     </h1>
                     <p class="text-sm opacity-60">Selalu waspada dengan data yang beresiko.</p>
                 </div>
+                <div class="w-full px-5 sm:px-7 bg-zinc-50">
+                    <input type="text" placeholder="Cari data disini...." name="nama_barang" class="input input-sm shadow-md w-full bg-zinc-100">
+                </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
                         <table class="table table-zebra">
