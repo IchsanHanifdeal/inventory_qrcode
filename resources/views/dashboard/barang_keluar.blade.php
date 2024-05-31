@@ -80,7 +80,7 @@
 </x-dashboard.main>
 
 <dialog id="tambah_barang_keluar_modal" class="modal modal-bottom sm:modal-middle">
-    <form action="{{ route('store.barangmasuk') }}" method="POST" class="modal-box">
+    <form action="{{ route('store.barangkeluar') }}" method="POST" class="modal-box">
         @csrf
         <h3 class="modal-title capitalize">
             Tambah Barang Keluar
