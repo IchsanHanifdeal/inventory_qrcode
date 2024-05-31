@@ -170,6 +170,7 @@
 <script>
     createjs.Sound.registerSound("/sounds/ding.mp3", 'ding');
     createjs.Sound.registerSound("/sounds/error.mp3", 'error');
+    createjs.Sound.registerSound("/sounds/sus.mp3", 'sus');
 
     var el = id => document.getElementById(id) || ''
     var barcodeData;

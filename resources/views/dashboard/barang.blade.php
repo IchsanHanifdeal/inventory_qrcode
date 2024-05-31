@@ -289,7 +289,7 @@
         if (data) {
             if (s) {
                 s = 0
-                createjs.Sound.play('ding')
+                createjs.Sound.play('sus')
             }
             stopScanner()
             el('dtb_nama_header').innerText = data.nama
