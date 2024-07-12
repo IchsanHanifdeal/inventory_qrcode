@@ -9,8 +9,10 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\PengembalianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/dashboard/barang_keluar', [BarangKeluarController::class, 'store'])->name('store.barangkeluar');
     Route::put('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'update'])->name('update.barangkeluar');
     
+    Route::get('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'index'])->name('kelola_peminjaman');
+    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/terima', [PeminjamanController::class, 'terima'])->name('terima_peminjaman');
+    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/tolak', [PeminjamanController::class, 'tolak'])->name('tolak_peminjaman');
+    
+    Route::get('/dashboard/kelola_Pengembalian', [PengembalianController::class, 'index'])->name('kelola_pengembalian');
+
     Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/dashboard/profile/{id_user}', [ProfileController::class, 'update'])->name('update.profile');
     Route::put('/dashboard/profile/ubah_password/{id_user}', [ProfileController::class, 'updatePassword'])->name('update.password');

@@ -6,6 +6,7 @@ use App\Models\Merk;
 use App\Models\User;
 use App\Models\Jenis;
 use App\Models\Barang;
+use App\Models\Peminjaman;
 use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
 use App\Models\Dashboard;
@@ -17,8 +18,10 @@ class DashboardController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
+    $id_user = $request->session()->get('id_user');
+    $peminjaman = Peminjaman::where('id_user', $id_user)->get();
     $today = Date::now()->toDateString();
     $barang_masuk = BarangMasuk::whereDate('tanggal', $today)->get();
     $barang_keluar = BarangKeluar::whereDate('tanggal', $today)->get();
@@ -27,10 +30,12 @@ class DashboardController extends Controller
         'labels' => ['January', 'February', 'March', 'April', 'May'],
         'data' => [65, 59, 80, 81, 56],
       ],
-      'totalBarang' => Barang::Count(),
-      'totalMerk' => Merk::Count(),
-      'totalJenis' => Jenis::Count(),
-      'totalUser' => User::Count(),
+      'totalBarang' => Barang::count(),
+      'barang' => Barang::all(),
+      'peminjaman' => $peminjaman,
+      'totalMerk' => Merk::count(),
+      'totalJenis' => Jenis::count(),
+      'totalUser' => User::count(),
       'totalMasuk' => BarangMasuk::count(),
       'totalKeluar' => BarangKeluar::count(),
       'barang_keluar' => $barang_keluar,

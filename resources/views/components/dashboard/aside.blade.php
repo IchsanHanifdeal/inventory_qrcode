@@ -12,40 +12,50 @@
                 Dashboard
             </a>
         </li>
-        <li>
-            <a href="{{ route('user') }}" class="{!! preg_match('#^dashboard/user.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
-                <x-lucide-users-2 />
-                Kelola User
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('merk') }}" class="{!! preg_match('#^dashboard/merk.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
-                <x-lucide-tag />
-                Kelola Merk
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('jenis') }}" class="{!! preg_match('#^dashboard/jenis.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
-                <x-lucide-hash />
-                Kelola Jenis
-            </a>
-        </li>
+        @if ($role === 'admin')
+            <li>
+                <a href="{{ route('user') }}" class="{!! preg_match('#^dashboard/user.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                    <x-lucide-users-2 />
+                    Kelola User
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('merk') }}" class="{!! preg_match('#^dashboard/merk.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                    <x-lucide-tag />
+                    Kelola Merk
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('jenis') }}" class="{!! preg_match('#^dashboard/jenis.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                    <x-lucide-hash />
+                    Kelola Jenis
+                </a>
+            </li>
+        @endif
         <li>
             <a href="{{ route('barang') }}" class="{!! preg_match('#^dashboard/barang(?!_).*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
                 <x-lucide-combine />
                 Kelola Barang
             </a>
         </li>
+        @if ($role === 'admin')
+            <li>
+                <a href="{{ route('barang_masuk') }}" class="{!! preg_match('#^dashboard/barang_masuk.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                    <x-lucide-package />
+                    Barang Masuk
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('barang_keluar') }}" class="{!! preg_match('#^dashboard/barang_keluar.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                    <x-lucide-blocks />
+                    Barang Keluar
+                </a>
+            </li>
+        @endif
         <li>
-            <a href="{{ route('barang_masuk') }}" class="{!! preg_match('#^dashboard/barang_masuk.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
-                <x-lucide-package />
-                Barang Masuk
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('barang_keluar') }}" class="{!! preg_match('#^dashboard/barang_keluar.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
-                <x-lucide-blocks />
-                Barang Keluar
+            <a href="{{ route('kelola_peminjaman') }}" class="{!! preg_match('#^dashboard/kelola_peminjaman.*#', Request::path()) ? 'active' : '' !!} flex items-center px-2.5">
+                <x-lucide-circle-arrow-up />
+                Kelola Peminjaman
             </a>
         </li>
         <span class="label text-xs font-extrabold opacity-50">ADVANCE</span>

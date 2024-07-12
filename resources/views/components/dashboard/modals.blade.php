@@ -116,6 +116,21 @@
     </dialog>
 @endforeach
 
+@foreach (['terima_peminjaman_modal', 'tolak_peminjaman_modal'] as $item)
+    <dialog id="{{ $item }}" class="modal modal-bottom sm:modal-middle">
+        <form method="POST" class="modal-box">
+            <h3 class="modal-title capitalize">
+                {{ str_replace('modal', '', str_replace('_', ' ', $item)) }}
+            </h3>
+            <div class="modal-action">
+                <button onclick="{{ $item }}.close()" class="btn" type="button">Tutup</button>
+                <button type="submit" class="btn btn-secondary capitalize">
+                    {{ explode('_', $item)[0] }} {{ explode('_', $item)[1] }}</button>
+            </div>
+        </form>
+    </dialog>
+@endforeach
+
 <dialog id="barcode_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
         <h3 class="modal-title capitalize">

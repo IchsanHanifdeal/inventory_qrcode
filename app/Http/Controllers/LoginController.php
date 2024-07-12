@@ -20,42 +20,28 @@ class LoginController extends Controller
     public function auth(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required',
+            'email' => 'required|email', // Validasi email
             'password' => 'required'
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $userRole = Auth::user()->role;
+            $user = Auth::user();
+            $userRole = $user->role;
 
-            if ($userRole == 'admin') {
-                $request->session()->regenerate();
-                $user = Auth::user();
+            $loginTime = Carbon::now();
+            $request->session()->put([
+                'login_time' => $loginTime->toDateTimeString(),
+                'name' => $user->name,
+                'id_user' => $user->id_user,
+                'username' => $user->username,
+                'email' => $user->email,
+                'role' => $user->role,
+                'created_at' => $user->created_at
+            ]);
 
-                $loginTime = Carbon::now();
-                $request->session()->put('login_time', $loginTime->toDateTimeString());
-
-                $request->session()->put('name', $user->name);
-                $request->session()->put('id_user', $user->id_user);
-                $request->session()->put('username', $user->username);
-                $request->session()->put('email', $user->email);
-                $request->session()->put('role', $user->role);
-                $request->session()->put('created_at', $user->created_at);
-
-                return redirect()->intended('dashboard')->with('success', 'Login successful!');
-            } elseif ($userRole == 'user') {
-                $request->session()->regenerate();
-                $user = Auth::user();
-
-                $loginTime = Carbon::now();
-                $request->session()->put('login_time', $loginTime->toDateTimeString());
-
-                $request->session()->put('id_user', $user->id_user);
-                $request->session()->put('username', $user->username);
-                $request->session()->put('email', $user->email);
-                $request->session()->put('role', $user->role);
-
+            if (in_array($userRole, ['admin', 'user'])) {
                 return redirect()->intended('dashboard')->with('success', 'Login successful!');
             }
 

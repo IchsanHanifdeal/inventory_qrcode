@@ -20,7 +20,7 @@
         @endforeach
     </div>
     <div class="flex flex-col lg:flex-row gap-5">
-        @foreach (['detail_merek', 'tambah_merek'] as $item)
+        @foreach (['tambah_merek'] as $item)
             <div onclick="{{ $item . '_modal' }}.showModal()"
                 class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
                 <div>
@@ -28,11 +28,9 @@
                         {{ str_replace('_', ' ', $item) }}
                     </h1>
                     <p class="text-sm opacity-60">
-                        {{ $item == 'detail_merek' ? 'Cari detail info tentang merek' : '' }}
                         {{ $item == 'tambah_merek' ? 'Menambahkan merek untuk barang' : '' }}
                     </p>
                 </div>
-                <x-lucide-scan-line class="{{ $item == 'detail_merek' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
                 <x-lucide-plus class="{{ $item == 'tambah_merek' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
             </div>
         @endforeach
