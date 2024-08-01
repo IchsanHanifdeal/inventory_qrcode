@@ -10,7 +10,7 @@ class Peminjaman extends Model
     use HasFactory;
     protected $table = "peminjaman";
     protected $primaryKey = "id_peminjaman";
-    protected $fillable = ['id_user', 'perihal', 'id_barang', 'pengembalian', 'validasi'];
+    protected $fillable = ['id_user', 'perihal', 'id_barang', 'jumlah', 'pengembalian', 'validasi', 'status'];
 
     public function barang()
     {

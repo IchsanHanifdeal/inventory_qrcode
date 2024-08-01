@@ -18,8 +18,10 @@ return new class extends Migration
             $table->String('perihal');
             $table->unsignedBigInteger('id_barang');
             $table->foreign('id_barang')->references('id_barang')->on('barang')->onDelete('cascade');
+            $table->String('jumlah');
             $table->date('pengembalian');
             $table->enum('validasi', ['dikonfirmasi', 'menunggu persetujuan', 'ditolak'])->default('menunggu persetujuan');
+            $table->enum('status', ['dipinjam', 'dikembalikan', 'ditolak', 'menunggu persetujuan'])->default('menunggu persetujuan');
             $table->timestamps();
         });
     }

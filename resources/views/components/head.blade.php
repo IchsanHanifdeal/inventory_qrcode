@@ -23,6 +23,7 @@
     <script src="/qrcodejs/qrcode.min.js"></script>
     <script src="/qrscanner/qr-scanner.legacy.min.js"></script>
     <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     
     <title>{{ $title ?? 'Beranda' }} | Invetory Barang with QR Code</title>
     <meta name="description" content="....">
