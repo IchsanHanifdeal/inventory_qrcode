@@ -28,25 +28,25 @@
             <div class="flex gap-5 border-b pb-7">
                 <div class="flex flex-col items-center gap-3 h-fit">
                     <div class="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-300">
-                        <img class="w-full h-full object-cover rounded-xl" src="https://ui-avatars.com/api/?name={{ $name }}" />
+                        <img class="w-full h-full object-cover rounded-xl" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" />
                     </div>                    
                     <h1 class="badge badge-sm badge-neutral font-medium uppercase">
-                        {{ $role }}
+                        {{ Auth::user()->role }}
                     </h1>
                 </div>
                 <div>
                     <h1 class="flex items-start gap-3 lowercase line-clamp-1 font-semibold font-[onest] sm:text-lg">
                         {{-- username --}}
-                        {{ '@' . ucfirst($username) }}
+                        {{ '@' . Auth::user()->username }}
                     </h1>
                      <p class="text-sm opacity-60 line-clamp-1">
-                        {{ $email }}
+                        {{ Auth::user()->email }}
                     </p>
                     <div class="mt-3">
                         <div>
                             <h1 class="text-sm font-semibold">Nama Panggilan:</h1>
                             <p class="text-sm opacity-60 line-clamp-1">
-                                {{ $username }}
+                                {{ Auth::user()->username }}
                             </p>
                         </div>
                     </div>
@@ -57,21 +57,21 @@
                 @method('PUT')
                 <div class="input-label">
                     <h1 class="label">Nama:</h1>
-                    <input required name="nama" value="{{ $name }}" type="text" placeholder="...">
+                    <input required name="nama" value="{{ Auth::user()->name }}" type="text" placeholder="...">
                     @error('nama')
                         <span class="validated">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-label">
                     <h1 class="label">Username:</h1>
-                    <input required name="username" value="{{ $username }}" type="text" placeholder="...">
+                    <input required name="username" value="{{ Auth::user()->username }}" type="text" placeholder="...">
                     @error('username')
                         <span class="validated">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-label">
                     <h1 class="label">Email:</h1>
-                    <input disabled name="email" value="{{ $email }}" type="email" placeholder="...">
+                    <input disabled name="email" value="{{ Auth::user()->email }}" type="email" placeholder="...">
                 </div>
                 <button type="submit" class="btn btn-secondary mt-5 ml-auto capitalize w-fit">Update Profile</button>
             </form>
