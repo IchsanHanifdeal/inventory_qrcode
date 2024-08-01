@@ -27,10 +27,9 @@
         <div class="flex flex-col gap-5 p-5 sm:p-7 bg-white border-back rounded-xl w-full">
             <div class="flex gap-5 border-b pb-7">
                 <div class="flex flex-col items-center gap-3 h-fit">
-                    <div class="w-24 border rounded-xl h-fit">
-                        <img class="rounded-xl drop-shadow-md"
-                            src="https://avatars.githubusercontent.com/u/93970726?v=4" />
-                    </div>
+                    <div class="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-300">
+                        <img class="w-full h-full object-cover rounded-xl" src="https://ui-avatars.com/api/?name={{ $name }}" />
+                    </div>                    
                     <h1 class="badge badge-sm badge-neutral font-medium uppercase">
                         {{ $role }}
                     </h1>
@@ -38,7 +37,7 @@
                 <div>
                     <h1 class="flex items-start gap-3 lowercase line-clamp-1 font-semibold font-[onest] sm:text-lg">
                         {{-- username --}}
-                        {{ '@' . $username }}
+                        {{ '@' . ucfirst($username) }}
                     </h1>
                      <p class="text-sm opacity-60 line-clamp-1">
                         {{ $email }}

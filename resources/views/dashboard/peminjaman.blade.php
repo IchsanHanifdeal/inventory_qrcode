@@ -98,10 +98,11 @@
                                                         onclick="document.getElementById('tolak_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
                                                         class="btn btn-outline btn-error m-2">Tolak</button>
                                                 </td>
-                                            @elseif ($item->validasi === 'dikonfirmasi')
+                                            @elseif ($item->validasi === 'dikonfirmasi' && $item->status === 'dipinjam')
                                                 <td>
-                                                    <x-lucide-check class="stroke-emerald-500"
-                                                        style="width: 20px; height: 20px;" />
+                                                    <button
+                                                        onclick="document.getElementById('kembalikan_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();initUpdate('peminjaman', {{ $item->id_peminjaman }});"
+                                                        class="btn btn-emerald m-2">Kembalikan</button>
                                                 </td>
                                             @elseif ($item->validasi === 'ditolak')
                                                 <td>
