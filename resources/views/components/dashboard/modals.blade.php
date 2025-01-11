@@ -96,28 +96,31 @@
             <button onclick="barcode_modal.close()" class="btn" type="button">Tutup</button>
             <button id="copy" onclick="copyKodeBarang()" class="btn btn-secondary capitalize text-white">Salin Kode
                 Barang</button>
+            <button id="print" onclick="printPreview()"
+                class="btn btn-secondary capitalize text-white">Print</button>
         </div>
     </div>
 </dialog>
 
 <dialog id="delete_modal" class="modal modal-bottom sm:modal-middle">
-    <form class="modal-box">
+    <form method="POST" class="modal-box">
+        @csrf
+        @method('DELETE')
         <h3 class="modal-title capitalize">
             Hapus <span id="dl_data_type"></span> <span id="dl_data_nama"></span>
         </h3>
         <div class="modal-body" id="dl_body"></div>
         <div class="modal-action">
-
-            {{-- maininnya disini --}}
-            <button class="btn btn-error capitalize text-white">
+            <button class="btn btn-error capitalize text-white" type="submit">
                 Yakin
             </button>
-            <button onclick="delete_modal.close()" class="btn" type="button">Batal</button>
+            <button type="button" onclick="document.getElementById('delete_modal').close()"
+                class="btn">Batal</button>
         </div>
     </form>
 </dialog>
 
-<dialog id="scan_kode_barang_modal" class="modal modal-bottom sm:modal-middle">
+<dialog id="ajukan_peminjaman_scan_kode_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
         <h3 class="modal-title capitalize !border-0 !pb-0">
             Scan Qr Code
@@ -131,6 +134,38 @@
         </form>
     </div>
 </dialog>
+
+<script>
+    function printPreview() {
+        const printContent = document.getElementById('bc_preview').outerHTML;
+        const printContent2 = document.getElementById('bc_data_kode_barang').outerHTML;
+
+        const printArea = document.createElement('div');
+        printArea.id = 'printArea';
+        printArea.innerHTML = printContent + printContent2;
+
+        const originalContent = document.body.innerHTML;
+
+        document.body.appendChild(printArea);
+        const style = document.createElement('style');
+        style.textContent = `
+            @media print {
+                body > *:not(#printArea) {
+                    display: none;
+                }
+                #printArea {
+                    display: block;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        window.print();
+
+        document.body.removeChild(printArea);
+        document.head.removeChild(style);
+    }
+</script>
 
 <script>
     createjs.Sound.registerSound("/sounds/ding.mp3", 'ding');
@@ -172,13 +207,19 @@
     }
 
     function initDelete(type, data) {
-        const val = data[type == 'barang' ? 'nama' : type == 'user' ? 'username' : type];
-
-        el('dl_data_type').innerText = type;
-        el('dl_data_nama').innerText = `"${val}"`;
-        el('dl_body').innerHTML =
-            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat di
-                urungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
+        const val = type === 'barang' ? data['nama'] :
+            type === 'user' ? data['username'] :
+            data[type];
+        const id = type === 'barang' ? data['id_barang'] :
+            type === 'merk' ? data['id_merk'] :
+            type === 'jenis' ? data['id_jenis'] : '';
+        document.getElementById('dl_data_type').innerText = type;
+        document.getElementById('dl_data_nama').innerText = `"${val}"`;
+        document.getElementById('dl_body').innerHTML =
+            `<h1>Yakin ingin menghapus ${type} <strong>"${val}"?</strong> Tindakan ini tidak dapat di urungkan. <strong class="text-red-600"><span class='capitalize'>${type}</span> akan hilang secara permanen.</strong></h1>`;
+        const form = document.querySelector('#delete_modal form');
+        form.action = `/delete/${type}/${id}`;
+        document.getElementById('delete_modal').showModal();
     }
 
     function copyKodeBarang() {

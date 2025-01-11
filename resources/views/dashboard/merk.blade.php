@@ -47,11 +47,11 @@
                     </p>
                 </div>
                 <div class="w-full px-5 sm:px-7 bg-zinc-50">
-                    <input type="text" placeholder="Cari data disini...." name="nama_barang" class="input input-sm shadow-md w-full bg-zinc-100">
+                    <input type="text" id="searchInput" placeholder="Cari data disini...." class="input input-sm shadow-md w-full bg-zinc-100" onkeyup="searchTable()">
                 </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
-                        <table class="table table-zebra">
+                        <table class="table table-zebra" id="dataTable">
                             <thead>
                                 <tr>
                                     @foreach (['no', 'kode merek', 'nama merek', 'register', ''] as $item)
@@ -73,45 +73,51 @@
                                                 onclick="update_merek_modal_{{ $item->id_merk }}.showModal();initUpdate('merk', {{ $item }})"
                                                 class="size-5 hover:stroke-blue-500 cursor-pointer" />
 
-                                                <dialog id="update_merek_modal_{{ $item->id_merk }}" class="modal modal-bottom sm:modal-middle">
-                                                    <form method="POST" class="modal-box" action="{{ route('update.merek', ['id_merk' => $item->id_merk] ) }}">
-                                                        @method('PUT')
-                                                        @csrf
-                                                        <h3 class="modal-title capitalize">
-                                                            Update Merek {{ $item->merk }}
-                                                        </h3>
-                                                        <div class="modal-body">
-                                                            <div class="input-label">
-                                                                <h1 class="label">Masukan Kode Merek:</h1>
-                                                
-                                                                {{-- name => kode_merek 'atau' kode_jenis --}}
-                                                                <input required id="up_kode_Merek"
-                                                                    name="up_kode_merek" type="text"
-                                                                    placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'UNC' : 'PKN' }}" value="{{ $item->kode }}">
-                                                                @error('up_kode_merek')
-                                                                    <span class="validated">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="input-label">
-                                                                <h1 class="label">Masukan Nama Merek:</h1>
-                                                
-                                                                {{-- name => nama_merek 'atau' nama_jenis --}}
-                                                                <input required id="up_nama_Merek"
-                                                                    name="up_nama_merek" type="text"
-                                                                    placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'Uniclo' : 'Pakaian' }}" value="{{ $item->merk }}">
-                                                                @error('up_nama_merek')
-                                                                    <span class="validated">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
+                                            <dialog id="update_merek_modal_{{ $item->id_merk }}"
+                                                class="modal modal-bottom sm:modal-middle">
+                                                <form method="POST" class="modal-box"
+                                                    action="{{ route('update.merek', ['id_merk' => $item->id_merk]) }}">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <h3 class="modal-title capitalize">
+                                                        Update Merek {{ $item->merk }}
+                                                    </h3>
+                                                    <div class="modal-body">
+                                                        <div class="input-label">
+                                                            <h1 class="label">Masukan Kode Merek:</h1>
+
+                                                            {{-- name => kode_merek 'atau' kode_jenis --}}
+                                                            <input required id="up_kode_Merek" name="up_kode_merek"
+                                                                type="text"
+                                                                placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'UNC' : 'PKN' }}"
+                                                                value="{{ $item->kode }}">
+                                                            @error('up_kode_merek')
+                                                                <span class="validated">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                        <div class="modal-action">
-                                                            <button onclick="update_merek_modal_{{ $item->id_merk }}.close()" class="btn" type="button">Tutup</button>
-                                                            <button type="submit" class="btn btn-secondary capitalize">
-                                                                Update Merek
-                                                            </button>
+                                                        <div class="input-label">
+                                                            <h1 class="label">Masukan Nama Merek:</h1>
+
+                                                            {{-- name => nama_merek 'atau' nama_jenis --}}
+                                                            <input required id="up_nama_Merek" name="up_nama_merek"
+                                                                type="text"
+                                                                placeholder="Contoh: {{ $item == 'update_merek_modal' ? 'Uniclo' : 'Pakaian' }}"
+                                                                value="{{ $item->merk }}">
+                                                            @error('up_nama_merek')
+                                                                <span class="validated">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                    </form>
-                                                </dialog>
+                                                    </div>
+                                                    <div class="modal-action">
+                                                        <button
+                                                            onclick="update_merek_modal_{{ $item->id_merk }}.close()"
+                                                            class="btn" type="button">Tutup</button>
+                                                        <button type="submit" class="btn btn-secondary capitalize">
+                                                            Update Merek
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </dialog>
 
                                             <x-lucide-trash-2
                                                 onclick="delete_modal.showModal();initDelete('merk', {{ $item }})"

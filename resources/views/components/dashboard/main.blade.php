@@ -12,6 +12,35 @@
         </div>
         @include('components.dashboard.aside')
     </div>
+    <script>
+        // Ambil elemen input dan tabel
+        const searchInput = document.getElementById('searchInput');
+        const table = document.getElementById('dataTable');
+
+        // Tambahkan event listener untuk input
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase(); // Konversi input ke lowercase
+            const rows = table.getElementsByTagName('tr'); // Ambil semua baris tabel
+
+            // Loop melalui semua baris tabel (mulai dari tbody)
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td'); // Ambil semua sel di baris ini
+                let match = false;
+
+                // Periksa setiap sel dalam baris
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toLowerCase().indexOf(filter) > -1) {
+                        match = true; // Ada kecocokan
+                        break;
+                    }
+                }
+
+                // Tampilkan atau sembunyikan baris berdasarkan hasil pencarian
+                rows[i].style.display = match ? '' : 'none';
+            }
+        });
+    </script>
 </x-main>
 
 @include('components.dashboard.modals')

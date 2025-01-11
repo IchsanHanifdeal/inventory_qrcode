@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id('id_barang');
             $table->string('kode')->unique();
             $table->string('nama')->unique();
+            $table->string('gambar');
             $table->integer('stok');
             $table->string('satuan');
             $table->unsignedBigInteger('id_jenis');
             $table->foreign('id_jenis')->references('id_jenis')->on('jenis')->onDelete('cascade');
             $table->unsignedBigInteger('id_merk');
             $table->foreign('id_merk')->references('id_merk')->on('merk')->onDelete('cascade');
+            $table->enum('status', ['layak', 'tidak layak'])->default('layak');
+            $table->string('lokasi');
             $table->timestamps();
         });
     }

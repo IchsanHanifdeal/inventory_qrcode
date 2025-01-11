@@ -58,12 +58,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/barang_keluar', [BarangKeluarController::class, 'index'])->name('barang_keluar');
     Route::post('/dashboard/barang_keluar', [BarangKeluarController::class, 'store'])->name('store.barangkeluar');
     Route::put('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'update'])->name('update.barangkeluar');
-    
+
     Route::get('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'index'])->name('kelola_peminjaman');
     Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/terima', [PeminjamanController::class, 'terima'])->name('terima_peminjaman');
     Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/tolak', [PeminjamanController::class, 'tolak'])->name('tolak_peminjaman');
-    Route::post('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'ajukan_peminjaman'])->name('ajukan_peminjaman');    
-    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])->name('kembalikan_peminjaman');    
+    Route::post('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'ajukan_peminjaman'])->name('ajukan_peminjaman');
+    Route::post('/dashboard/kelola_peminjaman/{id_barang}', [PeminjamanController::class, 'ajukan_peminjaman_qr'])->name('ajukan_peminjaman_qr');
+    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])->name('kembalikan_peminjaman');
 
     Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/dashboard/profile/{id_user}', [ProfileController::class, 'update'])->name('update.profile');

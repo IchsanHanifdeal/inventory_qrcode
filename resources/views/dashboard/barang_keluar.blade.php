@@ -33,11 +33,12 @@
                     <p class="text-sm opacity-60">Kelola barang keluar dengan efisien dan efektif</p>
                 </div>
                 <div class="w-full px-5 sm:px-7 bg-zinc-50">
-                    <input type="text" placeholder="Cari data disini...." name="nama_barang" class="input input-sm shadow-md w-full bg-zinc-100">
+                   <input type="text" id="searchInput" placeholder="Cari data disini...." name="nama_barang"
+    class="input input-sm shadow-md w-full bg-zinc-100">
                 </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
-                        <table class="table table-zebra">
+                        <table class="table table-zebra" id="dataTable">
                             <thead>
                                 <tr>
                                     @foreach (['no', 'kode barang', 'nama barang', 'stok', 'satuan', 'jenis barang', 'merek barang', 'last update', 'register', ''] as $item)
@@ -62,8 +63,8 @@
                                         <td class="font-semibold uppercase">{{ $item->barang->satuan }}</td>
                                         <td class="uppercase">{{ $item->barang->jenis->jenis }}</td>
                                         <td class="uppercase">{{ $item->barang->merk->merk }}</td>
-                                        <td>{{ $item->updated_at }}</td>
-                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->updated_at)->locale('id')->translatedFormat('d F Y H:i') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y H:i') }}</td>                                        
                                         <td class="flex items-center gap-4">
                                             {{-- <x-lucide-square-pen class="size-5 hover:stroke-blue-500 cursor-pointer" />
                                             <x-lucide-trash-2 class="size-5 hover:stroke-rose-500 cursor-pointer" /> --}}

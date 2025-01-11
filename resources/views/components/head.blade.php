@@ -1,4 +1,7 @@
 <head lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta property="og:url" content="https://...">
     <meta property="og:type" content="website">
     <meta property="og:title" content="....">
@@ -24,9 +27,12 @@
     <script src="/qrscanner/qr-scanner.legacy.min.js"></script>
     <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-    
+
     <title>{{ $title ?? 'Beranda' }} | Invetory Barang with QR Code</title>
     <meta name="description" content="....">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     @vite('resources/css/app.css')
 </head>

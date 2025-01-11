@@ -39,9 +39,9 @@
                         <button type="submit" class="btn w-full">Masuk</button>
                     </div>
                 </form>
-                <h1 class="mt-5 text-sm opacity-50">Belum punya akun?
+                {{-- <h1 class="mt-5 text-sm opacity-50">Belum punya akun?
                     <a href="{{ route('register') }}" class="hover:underline">Daftar Akun</a>
-                </h1>
+                </h1> --}}
             </div>
         </div>
     </section>

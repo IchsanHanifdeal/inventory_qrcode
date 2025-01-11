@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Barang;
+use App\Models\Jenis;
+use App\Models\Merk;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,19 +25,26 @@ class PeminjamanController extends Controller
             $total_peminjaman = Peminjaman::where('id_user', $user->id_user)->count();
             $total_diterima = Peminjaman::where('id_user', $user->id_user)->where('validasi', 'dikonfirmasi')->count();
             $total_ditolak = Peminjaman::where('id_user', $user->id_user)->where('validasi', 'ditolak')->count();
+            $total_dikembalikan = Peminjaman::where('id_user', $user->id_user)->where('status', 'dikembalikan')->count();
         } else {
             $total_peminjaman = Peminjaman::count();
             $total_diterima = Peminjaman::where('validasi', 'dikonfirmasi')->count();
             $total_ditolak = Peminjaman::where('validasi', 'ditolak')->count();
+            $total_dikembalikan = Peminjaman::where('status', 'dikembalikan')->count();
         }
 
         return view('dashboard.peminjaman', [
             'total_peminjaman' => $total_peminjaman,
+            'total_dikembalikan' => $total_dikembalikan,
             'peminjaman' => $user->role == 'user' ? Peminjaman::where('id_user', $user->id_user)->get() : Peminjaman::all(),
             'total_diterima' => $total_diterima,
             'total_ditolak' => $total_ditolak,
             'user' => $user,
             'barang' => Barang::all(),
+            'merk' => Merk::all(),
+            'jenis' => Jenis::all(),
+            'total_barang' => Barang::count(),
+            'stok_barang' => Barang::sum('stok'),
         ]);
     }
 
@@ -124,10 +133,62 @@ class PeminjamanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Peminjaman $peminjaman)
+    public function ajukan_peminjaman_qr(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'perihal' => 'required',
+            'id_barang' => 'required|exists:barang,id_barang',
+            'jumlah' => 'required|integer|min:1',
+            'pengembalian' => 'required|date',
+        ]);
+
+        // Custom validation for stock and return date
+        $validator->after(function ($validator) use ($request) {
+            $barang = Barang::find($request->input('id_barang'));
+
+            if ($barang && $request->input('jumlah') > $barang->stok) {
+                $validator->errors()->add('jumlah', 'Permintaan tidak bisa melebihi stok.');
+            }
+
+            $returnDate = Carbon::parse($request->input('pengembalian'));
+            $today = Carbon::today();
+            $minReturnDate = $today->copy()->addDays(3);
+
+            if ($returnDate->lt($today)) {
+                $validator->errors()->add('pengembalian', 'Pengembalian tidak bisa sebelum hari ini.');
+            } elseif ($returnDate->lt($minReturnDate)) {
+                $validator->errors()->add('pengembalian', 'Tanggal pengembalian harus 3 hari setelah hari ini.');
+            }
+        });
+
+        // Handle validation failures
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422); // Unprocessable Entity
+        }
+
+        try {
+            // Create the peminjaman record
+            $peminjaman = Peminjaman::create([
+                'id_user' => $user->id_user,
+                'id_barang' => $request->id_barang,
+                'perihal' => $request->perihal,
+                'jumlah' => $request->jumlah,
+                'pengembalian' => $request->pengembalian,
+            ]);
+
+            // Success response
+            return response()->json(['message' => 'Pengajuan Peminjaman Berhasil!'], 200);
+        } catch (\Exception $e) {
+            // Error response
+            return response()->json(['error' => 'Pengajuan Peminjaman gagal: ' . $e->getMessage()], 500);
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.
