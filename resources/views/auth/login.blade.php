@@ -1,11 +1,12 @@
 <x-main title="Login" class="p-0" full>
     <section class="min-h-screen flex items-stretch text-white ">
         <div
-            class="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center bg-[url('https://www.hashmicro.com/id/blog/wp-content/uploads/2022/10/image-25-1.jpg')]">
+            class="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
+            style="background-image: url('{{ asset('images.jpg') }}');">
             <div class="absolute bg-[linear-gradient(180deg,transparent,rgba(0,0,0,1))] inset-0 z-0"></div>
             <div class="w-full px-24 z-10">
-                <p class="text-4xl leading-tight tracking-wide font-semibold max-w-lg">Solusi kebutuhan barang untuk
-                    operasi perusahaan.</p>
+                <p class="text-4xl leading-tight tracking-wide font-bold max-w-lg font-[onest]">Sistem Inventarisasi & Sarana Prasarana Sekolah</p>
+                <p class="text-lg opacity-80 mt-4 max-w-md">Solusi cerdas untuk mengelola dan memantau aset sekolah guna menunjang kegiatan belajar mengajar yang optimal.</p>
             </div>
             <div class="bottom-0 absolute p-4 text-center right-0 left-0 flex justify-center space-x-4">
                 <span>
@@ -15,7 +16,8 @@
         </div>
         <div class="lg:w-1/2 bg-[#161616] w-full flex items-center justify-center text-center md:px-16 px-0 z-0">
             <div
-                class="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center bg-[url('https://www.hashmicro.com/id/blog/wp-content/uploads/2022/10/image-25-1.jpg')]">
+                class="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center"
+                style="background-image: url('{{ asset('images.jpg') }}');">
                 <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
             </div>
             <div class="w-full py-6 z-20">
