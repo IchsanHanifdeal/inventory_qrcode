@@ -419,9 +419,10 @@
     }, 1000);
 
     var scanner = new QrScanner(el('bc_scanner'), scan => {
-        let data = dataz.find(y => y.kode == scan.data)
+        let scannedCode = parseQrData(scan.data)
+        let data = dataz.find(y => y.kode == scannedCode)
 
-        el('bc_scanner_output').innerText = scan.data
+        el('bc_scanner_output').innerText = scannedCode
         el('bc_scanner_output').classList.remove('text-red-500')
 
         if (data) {

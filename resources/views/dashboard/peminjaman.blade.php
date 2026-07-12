@@ -76,7 +76,7 @@
                         <table class="table table-zebra" id="dataTable">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'Nama Peminjam', 'Perihal', 'Nama Barang', 'jumlah', 'Pengembalian', 'validasi', 'status', 'last update', 'register', ''] as $item)
+                                    @foreach (['no', 'Nama Peminjam', 'Perihal', 'Nama Barang', 'jumlah', 'Ruangan', 'Mata Pelajaran', 'Pengembalian', 'validasi', 'status', 'last update', 'register', 'aksi'] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -84,7 +84,7 @@
                             <tbody>
                                 @if ($peminjaman->isEmpty())
                                     <tr>
-                                        <td colspan="9" class="text-center">Tidak ada Peminjaman</td>
+                                        <td colspan="13" class="text-center">Tidak ada Peminjaman</td>
                                     </tr>
                                 @endif
                                 @foreach ($peminjaman as $i => $item)
@@ -98,60 +98,83 @@
                                             {{ $item->barang->nama }}
                                         </td>
                                         <td class="font-semibold">{{ $item->jumlah }}</td>
+                                        <td class="font-semibold capitalize">{{ $item->ruangan ?? '-' }}</td>
+                                        <td class="font-semibold capitalize">{{ $item->mata_pelajaran ?? '-' }}</td>
                                         <td class="font-semibold uppercase">
                                             {{ \Carbon\Carbon::parse($item->pengembalian)->locale('id')->translatedFormat('d F Y') }}
                                         </td>
-                                        <td class="font-semibold uppercase">{{ $item->validasi }}</td>
-                                        <td class="font-semibold uppercase">{{ $item->status }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                {{ $item->validasi === 'dikonfirmasi' ? 'badge-success text-white' : '' }}
+                                                {{ $item->validasi === 'disetujui sarpras' ? 'badge-info text-white' : '' }}
+                                                {{ $item->validasi === 'menunggu persetujuan operator' ? 'badge-warning text-white' : '' }}
+                                                {{ $item->validasi === 'ditolak' ? 'badge-error text-white' : '' }}
+                                                capitalize font-medium">
+                                                {{ $item->validasi }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge 
+                                                {{ $item->status === 'dipinjam' ? 'badge-primary text-white' : '' }}
+                                                {{ $item->status === 'dikembalikan' ? 'badge-success text-white' : '' }}
+                                                {{ $item->status === 'menunggu persetujuan operator' ? 'badge-warning text-white' : '' }}
+                                                {{ $item->status === 'disetujui sarpras' ? 'badge-info text-white' : '' }}
+                                                {{ $item->status === 'ditolak' ? 'badge-error text-white' : '' }}
+                                                capitalize font-medium">
+                                                {{ $item->status }}
+                                            </span>
+                                        </td>
                                         <td>{{ \Carbon\Carbon::parse($item->updated_at)->locale('id')->translatedFormat('d F Y H:i') }}
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y H:i') }}
                                         </td>
-                                        @if ($role === 'admin')
-                                            @if ($item->validasi === 'menunggu persetujuan')
-                                                <td>
+                                        <td>
+                                            <div class="flex items-center gap-2">
+                                                {{-- 1. Operator / Sarpras Approval --}}
+                                                @if (in_array($role, ['admin', 'operator', 'sarpras']) && $item->validasi === 'menunggu persetujuan operator')
                                                     <button
-                                                        onclick="document.getElementById('terima_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();initUpdate('peminjaman', {{ $item->id_peminjaman }});"
-                                                        class="btn btn-emerald m-2">Terima</button> |
+                                                        onclick="document.getElementById('terima_operator_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
+                                                        class="btn btn-sm btn-info text-white capitalize">Setujui Operator</button>
                                                     <button
                                                         onclick="document.getElementById('tolak_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
-                                                        class="btn btn-outline btn-error m-2">Tolak</button>
-                                                </td>
-                                            @elseif ($item->validasi === 'dikonfirmasi' && $item->status === 'dipinjam')
-                                                <td>
+                                                        class="btn btn-sm btn-outline btn-error capitalize">Tolak</button>
+                                                @endif
+
+                                                {{-- 2. Kepala Sarpras Approval --}}
+                                                @if (in_array($role, ['admin', 'kepala_sarpras']) && $item->validasi === 'disetujui sarpras')
                                                     <button
-                                                        onclick="document.getElementById('kembalikan_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();initUpdate('peminjaman', {{ $item->id_peminjaman }});"
-                                                        class="btn btn-emerald m-2">Kembalikan</button>
-                                                </td>
-                                            @elseif ($item->validasi === 'ditolak')
-                                                <td>
-                                                    <x-lucide-x class="stroke-emerald-500"
-                                                        style="width: 20px; height: 20px;" />
-                                                </td>
-                                            @elseif ($item->validasi === 'dikonfirmasi' && $item->status === 'dikembalikan')
-                                                <td>
-                                                    <x-lucide-check class="stroke-emerald-500"
-                                                        style="width: 20px; height: 20px;" />
-                                                </td>
-                                            @else
-                                                <td class="uppercase">undefined</td>
-                                            @endif
-                                        @elseif ($role === 'user')
-                                            @if ($item->validasi === 'dikonfirmasi' && $item->status === 'dipinjam')
-                                                <td>
+                                                        onclick="document.getElementById('terima_kepala_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
+                                                        class="btn btn-sm btn-success text-white capitalize">ACC Kepala (TTD)</button>
                                                     <button
-                                                        onclick="document.getElementById('kembalikan_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();initUpdate('peminjaman', {{ $item->id_peminjaman }});"
-                                                        class="btn btn-emerald m-2">Kembalikan</button>
-                                                </td>
-                                            @elseif ($item->validasi === 'dikonfirmasi' && $item->status === 'dikembalikan')
-                                                <td>
-                                                    <x-lucide-x class="stroke-emerald-500"
-                                                        style="width: 20px; height: 20px;" />
-                                                </td>
-                                            @else
-                                                <td class="uppercase">Menunggu persetujuan</td>
-                                            @endif
-                                        @endif
+                                                        onclick="document.getElementById('tolak_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
+                                                        class="btn btn-sm btn-outline btn-error capitalize">Tolak</button>
+                                                @endif
+
+                                                {{-- 3. Return Action (Operator, Sarpras, Admin can verify return) --}}
+                                                @if (in_array($role, ['admin', 'operator', 'sarpras']) && $item->validasi === 'dikonfirmasi' && $item->status === 'dipinjam')
+                                                    <button
+                                                        onclick="document.getElementById('kembalikan_peminjaman_modal_{{ $item->id_peminjaman }}').showModal();"
+                                                        class="btn btn-sm btn-emerald text-white capitalize">Terima Kembali</button>
+                                                @elseif (in_array($role, ['user', 'guru']) && $item->validasi === 'dikonfirmasi' && $item->status === 'dipinjam')
+                                                    <span class="text-sm font-semibold text-emerald-600">Barang Dipinjam</span>
+                                                @endif
+
+                                                {{-- 4. Surat Peminjaman (Cetak Surat) for Guru or any role once confirmed --}}
+                                                @if ($item->validasi === 'dikonfirmasi')
+                                                    <a href="{{ route('cetak_surat_peminjaman', $item->id_peminjaman) }}" target="_blank"
+                                                        class="btn btn-sm btn-primary capitalize text-white flex items-center gap-1">
+                                                        <x-lucide-printer class="size-4" /> Surat Bukti
+                                                    </a>
+                                                @endif
+
+                                                {{-- 5. Status indicators --}}
+                                                @if ($item->validasi === 'ditolak')
+                                                    <span class="badge badge-error text-white capitalize">Ditolak</span>
+                                                @elseif ($item->status === 'dikembalikan')
+                                                    <span class="badge badge-success text-white capitalize">Selesai</span>
+                                                @endif
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -164,30 +187,38 @@
 </x-dashboard.main>
 
 @foreach ($peminjaman as $i => $pe)
-    @foreach (['terima', 'tolak', 'kembalikan'] as $action)
+    @foreach (['terima_operator', 'terima_kepala', 'tolak', 'kembalikan'] as $action)
+        @php
+            $routeName = $action;
+            if ($action === 'tolak' || $action === 'kembalikan') {
+                $routeName = $action . '_peminjaman';
+            }
+        @endphp
         <dialog id="{{ $action }}_peminjaman_modal_{{ $pe->id_peminjaman }}"
             class="modal modal-bottom sm:modal-middle">
-            <form action="{{ route($action . '_' . 'peminjaman', ['id_peminjaman' => $pe->id_peminjaman]) }}"
+            <form action="{{ route($routeName, ['id_peminjaman' => $pe->id_peminjaman]) }}"
                 method="POST" class="modal-box">
                 @csrf
                 @method('PUT')
-                <h3 class="modal-title capitalize">
-                    {{ ucfirst($action) }} Peminjaman
+                <h3 class="modal-title capitalize text-lg font-bold border-b pb-2">
+                    Konfirmasi {{ str_replace('_', ' ', $action) }}
                 </h3>
-                <div class="modal-body">
+                <div class="modal-body py-4">
                     <div class="input-label">
-                        <h1 class="label">Anda sedang {{ $action }} peminjaman untuk barang
-                            {{ $pe->barang->kode }} - {{ $pe->barang->nama }} yang dipinjam oleh
-                            {{ $pe->user->name }}. Apakah Anda yakin ingin melanjutkan?
-                        </h1>
+                        <p class="text-gray-600">
+                            Anda sedang memproses tindakan <strong class="text-blue-600">{{ str_replace('_', ' ', $action) }}</strong> peminjaman untuk barang 
+                            <strong>{{ $pe->barang->kode }} - {{ $pe->barang->nama }}</strong> yang diajukan oleh 
+                            <strong>{{ $pe->user->name }}</strong>.
+                        </p>
+                        <p class="mt-2 text-sm text-gray-500">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
                     </div>
                 </div>
-                <div class="modal-action">
+                <div class="modal-action border-t pt-2">
                     <button
                         onclick="document.getElementById('{{ $action }}_peminjaman_modal_{{ $pe->id_peminjaman }}').close();"
-                        class="btn" type="button">Tutup</button>
-                    <button type="submit" class="btn btn-secondary capitalize">
-                        {{ ucfirst($action) }}
+                        class="btn btn-outline" type="button">Batal</button>
+                    <button type="submit" class="btn btn-primary capitalize text-white">
+                        Ya, Lanjutkan
                     </button>
                 </div>
             </form>
@@ -217,6 +248,14 @@
                         <option value="{{ $b->id_barang }}">{{ $b->kode . '-' . $b->nama }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="input-label">
+                <h1 class="label">Ruangan (Opsional)</h1>
+                <input name="ruangan" type="text" placeholder="Contoh: Lab Komputer 1 / Ruang Kelas VII-A" class="input input-sm shadow-md w-full bg-zinc-100">
+            </div>
+            <div class="input-label">
+                <h1 class="label">Mata Pelajaran (Opsional)</h1>
+                <input name="mata_pelajaran" type="text" placeholder="Contoh: Matematika / Informatika" class="input input-sm shadow-md w-full bg-zinc-100">
             </div>
             <div class="input-label">
                 <h1 class="label">Jumlah Barang yang dipinjam</h1>
@@ -262,6 +301,16 @@
                     class="block p-2.5 w-full text-sm rounded-lg border border-gray-300" required>
             </div>
             <div class="input-label">
+                <h1 class="label">Ruangan (Opsional)</h1>
+                <input type="text" name="ruangan"
+                    class="block p-2.5 w-full text-sm rounded-lg border border-gray-300" placeholder="Contoh: Lab Komputer 1">
+            </div>
+            <div class="input-label">
+                <h1 class="label">Mata Pelajaran (Opsional)</h1>
+                <input type="text" name="mata_pelajaran"
+                    class="block p-2.5 w-full text-sm rounded-lg border border-gray-300" placeholder="Contoh: Informatika">
+            </div>
+            <div class="input-label">
                 <h1 class="label">Jumlah</h1>
                 <input type="number" name="jumlah" min="1" required class="mt-2 w-full"
                     placeholder="Jumlah">
@@ -296,9 +345,10 @@
     }, 1000);
 
     var scanner = new QrScanner(el('bc_scanner'), scan => {
-        let data = dataz.find(y => y.kode == scan.data);
+        let scannedCode = parseQrData(scan.data);
+        let data = dataz.find(y => y.kode == scannedCode);
 
-        el('bc_scanner_output').innerText = scan.data;
+        el('bc_scanner_output').innerText = scannedCode;
         el('bc_scanner_output').classList.remove('text-red-500');
 
         if (data) {

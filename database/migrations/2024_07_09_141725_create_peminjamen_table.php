@@ -15,13 +15,17 @@ return new class extends Migration
             $table->id('id_peminjaman');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->String('perihal');
+            $table->string('perihal');
             $table->unsignedBigInteger('id_barang');
             $table->foreign('id_barang')->references('id_barang')->on('barang')->onDelete('cascade');
-            $table->String('jumlah');
+            $table->string('jumlah');
             $table->date('pengembalian');
-            $table->enum('validasi', ['dikonfirmasi', 'menunggu persetujuan', 'ditolak'])->default('menunggu persetujuan');
-            $table->enum('status', ['dipinjam', 'dikembalikan', 'ditolak', 'menunggu persetujuan'])->default('menunggu persetujuan');
+            $table->string('ruangan')->nullable();
+            $table->string('mata_pelajaran')->nullable();
+            $table->enum('validasi', ['dikonfirmasi', 'disetujui sarpras', 'menunggu persetujuan operator', 'ditolak'])->default('menunggu persetujuan operator');
+            $table->enum('status', ['dipinjam', 'dikembalikan', 'ditolak', 'menunggu persetujuan operator', 'disetujui sarpras'])->default('menunggu persetujuan operator');
+            $table->text('digital_signature')->nullable();
+            $table->timestamp('ttd_date')->nullable();
             $table->timestamps();
         });
     }

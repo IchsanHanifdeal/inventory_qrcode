@@ -16,12 +16,35 @@ class UserController extends Controller
     ]);
   }
 
+  public function store(Request $request)
+  {
+    $request->validate([
+      'nama' => 'required',
+      'username' => 'required|unique:users,username',
+      'email' => 'required|email|unique:users,email',
+      'role' => 'required',
+      'nik' => 'nullable|unique:users,nik',
+    ]);
+
+    $user = new User();
+    $user->name = $request->input('nama');
+    $user->username = $request->input('username');
+    $user->email = $request->input('email');
+    $user->password = bcrypt($request->input('password'));
+    $user->role = $request->input('role');
+    $user->nik = $request->input('nik');
+    $user->save();
+
+    return redirect()->back()->with('success', 'User berhasil ditambahkan');
+  }
+
   public function update(Request $request, $id_user)
   {
     $request->validate([
       'up_nama' => 'required',
       'up_username' => 'required',
       'up_role' => 'required',
+      'up_nik' => 'nullable',
     ]);
 
     $user = User::findOrFail($id_user);
@@ -29,6 +52,7 @@ class UserController extends Controller
     $user->name = $request->input('up_nama');
     $user->username = $request->input('up_username');
     $user->role = $request->input('up_role');
+    $user->nik = $request->input('up_nik');
     $user->save();
 
     return redirect()->back()->with('success', 'User berhasil diupdate');

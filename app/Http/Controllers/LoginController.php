@@ -41,7 +41,7 @@ class LoginController extends Controller
                 'created_at' => $user->created_at
             ]);
 
-            if (in_array($userRole, ['admin', 'user'])) {
+            if (in_array($userRole, ['admin', 'user', 'operator', 'sarpras', 'kepala_sarpras', 'guru'])) {
                 return redirect()->intended('dashboard')->with('success', 'Login successful!');
             }
 

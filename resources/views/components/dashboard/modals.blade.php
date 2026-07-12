@@ -82,14 +82,38 @@
 
 
 <dialog id="barcode_modal" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box">
+    <div class="modal-box sm:max-w-xl">
         <h3 class="modal-title capitalize">
             QR Code <span id="bc_data_nama_barang"></span>
         </h3>
         <div class="modal-body text-center">
-            <div class="flex flex-col gap-2 mx-auto my-2 group">
-                <div id="bc_preview" class="group-hover:shadow-2xl group-hover:shadow-gray-950 bg-transparent"></div>
-                <strong id="bc_data_kode_barang" class="font-mono group-hover:opacity-0 text-blue-500"></strong>
+            <div class="flex flex-col sm:flex-row gap-6 items-center justify-center my-2">
+                <div class="flex flex-col gap-2 group items-center">
+                    <div id="bc_preview" class="group-hover:shadow-2xl group-hover:shadow-gray-950 bg-white p-2 rounded-lg transition-all duration-300"></div>
+                    <strong id="bc_data_kode_barang" class="font-mono text-blue-500"></strong>
+                </div>
+                <div class="text-left w-full sm:w-64 bg-zinc-50 p-4 rounded-xl border border-zinc-200 text-sm">
+                    <h4 class="font-bold mb-2 text-zinc-700 border-b pb-1">Informasi Barang</h4>
+                    <div class="grid grid-cols-3 gap-y-1.5 text-zinc-600">
+                        <span class="font-semibold col-span-1">Nama</span>
+                        <span class="col-span-2" id="bc_info_nama">-</span>
+                        
+                        <span class="font-semibold col-span-1">Jenis</span>
+                        <span class="col-span-2 capitalize" id="bc_info_jenis">-</span>
+                        
+                        <span class="font-semibold col-span-1">Merek</span>
+                        <span class="col-span-2 capitalize" id="bc_info_merek">-</span>
+                        
+                        <span class="font-semibold col-span-1">Lokasi</span>
+                        <span class="col-span-2 capitalize" id="bc_info_lokasi">-</span>
+                        
+                        <span class="font-semibold col-span-1">Status</span>
+                        <span class="col-span-2 capitalize font-medium" id="bc_info_status">-</span>
+                        
+                        <span class="font-semibold col-span-1">Stok</span>
+                        <span class="col-span-2" id="bc_info_stok">-</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-action">
@@ -179,31 +203,78 @@
         height: 200
     });
 
+    function parseQrData(scanData) {
+        if (!scanData) return '';
+        let text = scanData.trim();
+        // 1. Check if it's a JSON string
+        if (text.startsWith('{') && text.endsWith('}')) {
+            try {
+                let parsed = JSON.parse(text);
+                if (parsed && parsed.kode) {
+                    return parsed.kode;
+                }
+            } catch(e) {}
+        }
+        // 2. Check if it's formatted text containing "Kode Barang: [CODE]" or "Kode: [CODE]"
+        let match = text.match(/Kode Barang:\s*([^\n\r]+)/i) || text.match(/Kode:\s*([^\n\r]+)/i);
+        if (match) {
+            return match[1].trim();
+        }
+        // 3. Otherwise return the raw scanned text
+        return text;
+    }
+
     function initBarcode(data) {
         let init = data?.barang || data;
         barcodeData = init;
         el('bc_data_nama_barang').innerText = `"${init.nama}"`
         el('bc_data_kode_barang').innerText = init.kode
-        qrcode.makeCode(init.kode)
+
+        let jenisText = (init.jenis && init.jenis.jenis) ? init.jenis.jenis : '-';
+        let merkText = (init.merk && init.merk.merk) ? init.merk.merk : '-';
+        let lokasiText = init.lokasi || '-';
+        let statusText = init.status || '-';
+        let stokText = init.stok !== undefined ? init.stok : '-';
+        let satuanText = init.satuan || '';
+
+        // Update info display inside modal
+        if (el('bc_info_nama')) el('bc_info_nama').innerText = init.nama;
+        if (el('bc_info_jenis')) el('bc_info_jenis').innerText = jenisText;
+        if (el('bc_info_merek')) el('bc_info_merek').innerText = merkText;
+        if (el('bc_info_lokasi')) el('bc_info_lokasi').innerText = lokasiText;
+        if (el('bc_info_status')) el('bc_info_status').innerText = statusText;
+        if (el('bc_info_stok')) el('bc_info_stok').innerText = `${stokText} ${satuanText}`;
+
+        // Construct detailed text content for the QR Code
+        let qrContent = `Kode: ${init.kode}
+Nama: ${init.nama}
+Jenis: ${jenisText}
+Merek: ${merkText}
+Lokasi: ${lokasiText}
+Status: ${statusText}
+Stok: ${stokText} ${satuanText}`;
+
+        qrcode.makeCode(qrContent)
     }
 
     function initUpdate(type, data) {
-        el('up_kode_merek').value = data.kode
-        el('up_nama_merek').value = data.merk
-        el('up_kode_jenis').value = data.kode_jenis
-        el('up_nama_jenis').value = data.jenis
+        if (document.getElementById('up_kode_merek')) el('up_kode_merek').value = data.kode || '';
+        if (document.getElementById('up_nama_merek')) el('up_nama_merek').value = data.merk || '';
+        if (document.getElementById('up_kode_jenis')) el('up_kode_jenis').value = data.kode_jenis || '';
+        if (document.getElementById('up_nama_jenis')) el('up_nama_jenis').value = data.jenis || '';
 
-        el('up_kode_barang').value = data.kode
-        el('up_nama_barang').value = data.nama
-        el('up_jenis_barang').value = data.id_jenis
-        el('up_merek_barang').value = data.id_merk
-        el('up_stok_barang').value = data.stok
-        el('up_satuan_barang').value = data.satuan
+        if (document.getElementById('up_kode_barang')) el('up_kode_barang').value = data.kode || '';
+        if (document.getElementById('up_nama_barang')) el('up_nama_barang').value = data.nama || '';
+        if (document.getElementById('up_jenis_barang')) el('up_jenis_barang').value = data.id_jenis || '';
+        if (document.getElementById('up_merek_barang')) el('up_merek_barang').value = data.id_merk || '';
+        if (document.getElementById('up_stok_barang')) el('up_stok_barang').value = data.stok || '0';
+        if (document.getElementById('up_satuan_barang')) el('up_satuan_barang').value = data.satuan || '';
 
-        el('up_nama').value = data.name
-        el('up_username').value = data.username
-        el('up_email').value = data.email
-        el('up_role').value = data.role
+        if (document.getElementById('up_nama')) el('up_nama').value = data.name || '';
+        if (document.getElementById('up_username')) el('up_username').value = data.username || '';
+        if (document.getElementById('up_email')) el('up_email').value = data.email || '';
+        if (document.getElementById('up_role')) el('up_role').value = data.role || '';
+        if (document.getElementById('up_nik')) el('up_nik').value = data.nik || '';
     }
 
     function initDelete(type, data) {

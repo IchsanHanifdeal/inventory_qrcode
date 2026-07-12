@@ -19,6 +19,22 @@
             </div>
         @endforeach
     </div>
+    <div class="flex flex-col lg:flex-row gap-5">
+        @foreach (['tambah_user'] as $item)
+            <div onclick="{{ $item . '_modal' }}.showModal()"
+                class="flex items-center justify-between p-5 sm:p-7 hover:shadow-md active:scale-[.97] border border-blue-200 bg-white cursor-pointer border-back rounded-xl w-full">
+                <div>
+                    <h1 class="flex items-start gap-3 font-semibold font-[onest] sm:text-lg capitalize">
+                        {{ str_replace('_', ' ', $item) }}
+                    </h1>
+                    <p class="text-sm opacity-60">
+                        {{ $item == 'tambah_user' ? 'Menambahkan user baru' : '' }}
+                    </p>
+                </div>
+                <x-lucide-plus class="{{ $item == 'tambah_user' ? '' : 'hidden' }} size-5 sm:size-7 opacity-60" />
+            </div>
+        @endforeach
+    </div>
     <div class="flex gap-5">
         @foreach (['manajemen_user'] as $item)
             <div class="flex flex-col border-back rounded-xl w-full">
@@ -30,14 +46,14 @@
                 </div>
                 <div class="w-full px-5 sm:px-7 bg-zinc-50">
                     <input type="text" id="searchInput" placeholder="Cari data disini...." name="nama_barang"
-    class="input input-sm shadow-md w-full bg-zinc-100">
+                        class="input input-sm shadow-md w-full bg-zinc-100">
                 </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
                         <table class="table table-zebra" id="dataTable">
                             <thead>
                                 <tr>
-                                    @foreach (['no', 'nama', 'username', 'email', 'role', 'register', ''] as $item)
+                                    @foreach (['no', 'nama', 'nik', 'username', 'email', 'role', 'register', ''] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -47,12 +63,14 @@
                                     <tr>
                                         <th>{{ $i + 1 }}</th>
                                         <td>{{ $item->name ?? '-' }}</td>
+                                        <td class="font-semibold">{{ $item->nik ?? '-' }}</td>
                                         <td class="text-blue-500 font-semibold hover:underline cursor-pointer">
                                             {{ $item->username }}
                                         </td>
                                         <td>{{ $item->email }}</td>
                                         <td class="font-semibold uppercase">{{ $item->role }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y H:i') }}</td>   
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y H:i') }}
+                                        </td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-square-pen
                                                 onclick="document.getElementById('update_user_modal_{{ $item->id_user }}').showModal();initUpdate('user', {{ $item->id_barang }})"
@@ -102,6 +120,77 @@
     </div>
 </x-dashboard.main>
 
+<dialog id="tambah_user_modal" class="modal modal-bottom sm:modal-middle">
+    <form method="POST" class="modal-box" action="{{ route('store.user') }}">
+        @csrf
+        <h3 class="modal-title capitalize">
+            Tambah User
+        </h3>
+        <div class="modal-body">
+            <div class="input-label">
+                <h1 class="label">Masukan Nama:</h1>
+                <input required id="nama" name="nama" type="text" placeholder="...."
+                    class="input input-sm shadow-md w-full bg-zinc-100" value="{{ old('nama') }}">
+                @error('nama')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan NIK (Khusus Guru):</h1>
+                <input id="nik" name="nik" type="text" placeholder="Masukkan NIK jika Guru..."
+                    class="input input-sm shadow-md w-full bg-zinc-100" value="{{ old('nik') }}">
+                @error('nik')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Username:</h1>
+                <input required id="username" name="username" type="text" placeholder="...."
+                    class="input input-sm shadow-md w-full bg-zinc-100" value="{{ old('username') }}">
+                @error('username')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Email:</h1>
+                <input required id="email" name="email" type="email" placeholder="...."
+                    class="input input-sm shadow-md w-full bg-zinc-100" value="{{ old('email') }}">
+                @error('email')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Password:</h1>
+                <input required id="password" name="password" type="password" placeholder="...."
+                    class="input input-sm shadow-md w-full bg-zinc-100">
+                @error('password')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-label">
+                <h1 class="label">Masukan Role:</h1>
+                <select required id="role" name="role" class="select select-sm shadow-md w-full bg-zinc-100">
+                    <option value="">Pilih Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="operator">Operator</option>
+                    <option value="sarpras">Sarpras</option>
+                    <option value="kepala_sarpras">Kepala Sarpras</option>
+                    <option value="guru">Guru</option>
+                    <option value="user">User</option>
+                </select>
+                @error('role')
+                    <span class="text-xs text-red-600 mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="modal-action">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            <button type="button" onclick="document.getElementById('tambah_user_modal').close()"
+                class="btn">Batal</button>
+        </div>
+    </form>
+</dialog>
+
 @foreach ($user as $i => $item)
     <dialog id="update_user_modal_{{ $item->id_user }}" class="modal modal-bottom sm:modal-middle">
         <form method="POST" class="modal-box" action="{{ route('update.user', ['id_user' => $item->id_user]) }}">
@@ -116,6 +205,14 @@
                     <input required id="up_nama" name="up_nama" type="text" placeholder="...."
                         value="{{ $item->name }}">
                     @error('nama')
+                        <span class="validated">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-label">
+                    <h1 class="label">Masukan NIK (Khusus Guru):</h1>
+                    <input id="up_nik" name="up_nik" type="text" placeholder="Masukkan NIK jika Guru..."
+                        value="{{ $item->nik }}">
+                    @error('up_nik')
                         <span class="validated">{{ $message }}</span>
                     @enderror
                 </div>
@@ -136,6 +233,10 @@
                     <select required id="up_role" name="up_role" class="uppercase select select-sm">
                         <option value="user" {{ $item->role == 'user' ? 'selected' : '' }}>USER</option>
                         <option value="admin" {{ $item->role == 'admin' ? 'selected' : '' }}>ADMIN</option>
+                        <option value="operator" {{ $item->role == 'operator' ? 'selected' : '' }}>OPERATOR</option>
+                        <option value="sarpras" {{ $item->role == 'sarpras' ? 'selected' : '' }}>SARPRAS</option>
+                        <option value="kepala_sarpras" {{ $item->role == 'kepala_sarpras' ? 'selected' : '' }}>KEPALA SARPRAS</option>
+                        <option value="guru" {{ $item->role == 'guru' ? 'selected' : '' }}>GURU</option>
                     </select>
                     @error('role')
                         <span class="validated">{{ $message }}</span>

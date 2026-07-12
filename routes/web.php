@@ -60,6 +60,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/dashboard/barang_keluar/{id_keluar}', [BarangKeluarController::class, 'update'])->name('update.barangkeluar');
 
     Route::get('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'index'])->name('kelola_peminjaman');
+    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/terima_operator', [PeminjamanController::class, 'terima_operator'])->name('terima_operator');
+    Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/terima_kepala', [PeminjamanController::class, 'terima_kepala'])->name('terima_kepala');
+    Route::get('/dashboard/kelola_peminjaman/{id_peminjaman}/surat', [PeminjamanController::class, 'cetak_surat'])->name('cetak_surat_peminjaman');
     Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/terima', [PeminjamanController::class, 'terima'])->name('terima_peminjaman');
     Route::put('/dashboard/kelola_peminjaman/{id_peminjaman}/tolak', [PeminjamanController::class, 'tolak'])->name('tolak_peminjaman');
     Route::post('/dashboard/kelola_peminjaman', [PeminjamanController::class, 'ajukan_peminjaman'])->name('ajukan_peminjaman');
